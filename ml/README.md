@@ -1,10 +1,16 @@
 # Disease Model Training
 
-This folder now contains multiple training options for disease prediction.
+This folder contains multiple training options for disease prediction.
+
+## Dataset used for training
+
+The training scripts now build features directly from `ml/dataset.csv`.
+Each `Symptom_*` column is converted into a multi-hot vector across the shared
+131-symptom feature schema used by the project.
 
 ## Recommended app-linked trainer
 
-The Android app is linked to the exported JSON model produced by:
+The Android app is currently linked to the exported JSON model produced by:
 
 ```bash
 python ml/train_symptom_nb_model.py \
@@ -13,35 +19,27 @@ python ml/train_symptom_nb_model.py \
   --metrics ml/output/disease_nb_metrics.txt
 ```
 
-What it does:
-- reads the symptom columns from `ml/dataset.csv`
-- trains a lightweight Bernoulli Naive Bayes model without external ML dependencies
-- exports `disease_nb_model.json` that the Android app can load directly
-- writes a metrics file for the training run
-
-## Optional experimental trainers
-
-These scripts are still available for experimentation, but they are **not** the runtime model currently used by the Android app unless you add extra integration code.
-
-### CNN trainer
+## Scikit-learn trainer
 
 ```bash
-python ml/train_cnn_model.py --data ml/sample_disease_dataset.csv --out-dir ml/output --epochs 30
+python ml/train_model_sklearn.py --data ml/dataset.csv --out-dir ml/output
+```
+
+Outputs:
+- `ml/output/disease_rf_model.joblib`
+- `ml/output/label_encoder.joblib`
+- `ml/output/feature_config_sklearn.json`
+- `ml/output/metrics_sklearn.txt`
+
+## CNN trainer
+
+```bash
+python ml/train_cnn_model.py --data ml/dataset.csv --out-dir ml/output --epochs 30
 ```
 
 Outputs:
 - `ml/output/disease_cnn.keras`
 - `ml/output/disease_cnn.tflite`
 - `ml/output/labels.txt`
+- `ml/output/feature_config.json`
 - `ml/output/metrics.txt`
-
-### Scikit-learn trainer
-
-```bash
-python ml/train_model_sklearn.py --data ml/sample_disease_dataset.csv --out-dir ml/output
-```
-
-Outputs:
-- `ml/output/disease_rf_model.joblib`
-- `ml/output/label_encoder.joblib`
-- `ml/output/metrics_sklearn.txt`

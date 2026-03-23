@@ -1,23 +1,21 @@
-"""Train a lightweight ML classifier for disease prediction (no TensorFlow required).
+"""Train a lightweight ML classifier for disease prediction from ml/dataset.csv.
 
 Usage:
-python ml/train_model_sklearn.py --data ml/sample_disease_dataset.csv --out-dir ml/output
+python ml/train_model_sklearn.py --data ml/dataset.csv --out-dir ml/output
 """
 
 import argparse
+import json
 import os
+
+import joblib
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-import joblib
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 
-FEATURE_COLUMNS = [
-    "fever", "cough", "headache", "fatigue", "vomiting",
-    "chest_pain", "sore_throat", "body_pain", "nausea", "breathlessness",
-    "severity", "duration_days"
-]
+from training_data_utils import FEATURE_COLUMNS, prepare_dataframe_from_dataset
 
 
 def parse_args():
@@ -31,7 +29,8 @@ def main():
     args = parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
 
-    df = pd.read_csv(args.data).dropna(subset=FEATURE_COLUMNS + ["disease"])
+    raw_df = pd.read_csv(args.data)
+    df = prepare_dataframe_from_dataset(raw_df)
 
     X = df[FEATURE_COLUMNS]
     y = df["disease"]
@@ -52,8 +51,13 @@ def main():
     joblib.dump(model, os.path.join(args.out_dir, "disease_rf_model.joblib"))
     joblib.dump(label_encoder, os.path.join(args.out_dir, "label_encoder.joblib"))
 
+    with open(os.path.join(args.out_dir, "feature_config_sklearn.json"), "w", encoding="utf-8") as handle:
+        json.dump({"feature_names": FEATURE_COLUMNS}, handle, indent=2)
+
     with open(os.path.join(args.out_dir, "metrics_sklearn.txt"), "w", encoding="utf-8") as f:
         f.write(f"test_accuracy={acc:.4f}\n")
+        f.write(f"training_samples={len(X_train)}\n")
+        f.write(f"test_samples={len(X_test)}\n")
 
     print(f"Training complete. Accuracy={acc:.4f}")
 
