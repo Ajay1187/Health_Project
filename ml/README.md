@@ -1,33 +1,43 @@
-# CNN Model Training (Smart Health Card)
+# Disease Model Training
 
-This folder provides a starting pipeline to train a disease-classification CNN and export TensorFlow Lite artifacts for Android.
+This folder now contains multiple training options for disease prediction.
 
-## 1) Install dependencies
+## Recommended app-linked trainer
+
+The Android app is linked to the exported JSON model produced by:
 
 ```bash
-pip install tensorflow pandas numpy scikit-learn
+python ml/train_symptom_nb_model.py \
+  --data ml/dataset.csv \
+  --out app/src/main/assets/disease_data/disease_nb_model.json \
+  --metrics ml/output/disease_nb_metrics.txt
 ```
 
-## 2) Train model
+What it does:
+- reads the symptom columns from `ml/dataset.csv`
+- trains a lightweight Bernoulli Naive Bayes model without external ML dependencies
+- exports `disease_nb_model.json` that the Android app can load directly
+- writes a metrics file for the training run
+
+## Optional experimental trainers
+
+These scripts are still available for experimentation, but they are **not** the runtime model currently used by the Android app unless you add extra integration code.
+
+### CNN trainer
 
 ```bash
 python ml/train_cnn_model.py --data ml/sample_disease_dataset.csv --out-dir ml/output --epochs 30
 ```
 
-## 3) Expected outputs
-
+Outputs:
 - `ml/output/disease_cnn.keras`
 - `ml/output/disease_cnn.tflite`
 - `ml/output/labels.txt`
 - `ml/output/metrics.txt`
 
-> Replace `sample_disease_dataset.csv` with your real dataset for production-grade accuracy targets.
-
-
-## 4) Lightweight training (no TensorFlow)
+### Scikit-learn trainer
 
 ```bash
-pip install pandas scikit-learn joblib
 python ml/train_model_sklearn.py --data ml/sample_disease_dataset.csv --out-dir ml/output
 ```
 
