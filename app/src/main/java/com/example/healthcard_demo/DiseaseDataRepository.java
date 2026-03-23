@@ -12,17 +12,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 public class DiseaseDataRepository {
+
     private static final String DATASET_FILE = "disease_data/dataset.csv";
     private static final String PRECAUTION_FILE = "disease_data/symptom_precaution.csv";
     private static final String SEVERITY_FILE = "disease_data/Symptom-severity.csv";
@@ -56,11 +57,18 @@ public class DiseaseDataRepository {
         MatchResult selectedMatch = heuristicMatch;
         float modelConfidence = heuristicMatch == null ? 0.35f : heuristicMatch.score;
 
+        // ✅ ML Model Prediction (if available)
         if (cachedClassifier != null && cachedClassifier.isReady() && !normalizedSymptoms.isEmpty()) {
-            TrainedDiseaseClassifier.Prediction modelPrediction = cachedClassifier.predict(normalizedSymptoms);
+            TrainedDiseaseClassifier.Prediction modelPrediction =
+                    cachedClassifier.predict(normalizedSymptoms);
+
             if (modelPrediction != null) {
-                DiseaseProfile predictedProfile = cachedProfiles.get(normalizeDiseaseKey(modelPrediction.getDiseaseName()));
-                MatchResult modelMatch = buildMatchResult(predictedProfile, normalizedSymptoms, modelPrediction.getConfidence());
+                DiseaseProfile predictedProfile =
+                        cachedProfiles.get(normalizeDiseaseKey(modelPrediction.getDiseaseName()));
+
+                MatchResult modelMatch =
+                        buildMatchResult(predictedProfile, normalizedSymptoms, modelPrediction.getConfidence());
+
                 if (modelMatch != null && modelMatch.matchedCount > 0) {
                     selectedMatch = modelMatch;
                     modelConfidence = modelPrediction.getConfidence();
@@ -73,24 +81,26 @@ public class DiseaseDataRepository {
         response.setPredictionTimestamp(now);
         response.setInputSeverity(inputSeverity);
 
+        // ❌ No match case
         if (selectedMatch == null || selectedMatch.profile == null) {
             response.setPredictedDisease("General Viral Infection");
-            response.setDescription("The entered symptoms do not strongly match a single disease profile, so please consult a doctor for a clinical assessment.");
+            response.setDescription("Symptoms do not strongly match a disease.");
             response.setPrecautions(defaultPrecautions());
-            response.setDoctorDetails("General Physician - Community Health Clinic - +91-90000-00001");
-            response.setDietPlan("Hydration, warm fluids, and balanced home-cooked meals.");
-            response.setExercise("Take adequate rest and perform light walking only if comfortable.");
+            response.setDoctorDetails("General Physician");
+            response.setDietPlan("Hydration and light diet");
+            response.setExercise("Rest");
             response.setSeverityScore(inputSeverityScore);
             response.setSeverity(mapSeverityLabel(inputSeverityScore));
             response.setConfidence(0.35f);
             return response;
         }
 
-        int averageMatchedSeverity = selectedMatch.matchedCount == 0
+        int avgSeverity = selectedMatch.matchedCount == 0
                 ? inputSeverityScore
                 : Math.round(selectedMatch.matchedSeveritySum / (float) selectedMatch.matchedCount);
+
         int severityScore = Math.max(1, Math.min(7,
-                Math.round((averageMatchedSeverity * 0.6f) + (inputSeverityScore * 0.4f))));
+                Math.round((avgSeverity * 0.6f) + (inputSeverityScore * 0.4f))));
 
         response.setPredictedDisease(selectedMatch.profile.diseaseName);
         response.setDescription(selectedMatch.profile.description);
@@ -101,6 +111,7 @@ public class DiseaseDataRepository {
         response.setConfidence(Math.min(0.99f, Math.max(0.35f, modelConfidence)));
         response.setSeverityScore(severityScore);
         response.setSeverity(mapSeverityLabel(severityScore));
+
         return response;
     }
 
@@ -128,11 +139,9 @@ public class DiseaseDataRepository {
     }
 
     private void ensureLoaded() {
-        if (cachedProfiles != null && cachedSymptomSeverity != null && cachedAllSymptoms != null) {
-            return;
-        }
+        if (cachedProfiles != null) return;
 
-        cachedProfiles = new LinkedHashMap<>();
+        cachedProfiles = new HashMap<>();
         cachedSymptomSeverity = new HashMap<>();
 
         loadSymptomSeverity();
@@ -142,37 +151,72 @@ public class DiseaseDataRepository {
         loadTrainedModel();
 
         Set<String> allSymptoms = new HashSet<>(cachedSymptomSeverity.keySet());
-        for (DiseaseProfile profile : cachedProfiles.values()) {
-            allSymptoms.addAll(profile.symptoms);
+        for (DiseaseProfile p : cachedProfiles.values()) {
+            allSymptoms.addAll(p.symptoms);
         }
+
         cachedAllSymptoms = new ArrayList<>(allSymptoms);
         Collections.sort(cachedAllSymptoms);
     }
 
     private void loadTrainedModel() {
-        AssetManager assetManager = context.getAssets();
-        try (InputStream inputStream = assetManager.open(TRAINED_MODEL_FILE);
-             InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-            TrainedDiseaseClassifier.ModelData modelData = new Gson().fromJson(reader, TrainedDiseaseClassifier.ModelData.class);
-            if (modelData != null) {
-                cachedClassifier = new TrainedDiseaseClassifier(modelData);
-            }
-        } catch (IOException ignored) {
+        try {
+            InputStream is = context.getAssets().open(TRAINED_MODEL_FILE);
+            InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+            TrainedDiseaseClassifier.ModelData data =
+                    new Gson().fromJson(reader, TrainedDiseaseClassifier.ModelData.class);
+            cachedClassifier = new TrainedDiseaseClassifier(data);
+        } catch (Exception e) {
             cachedClassifier = null;
         }
+    }
+
+    private MatchResult findBestHeuristicMatch(List<String> symptoms) {
+        MatchResult best = null;
+
+        for (DiseaseProfile profile : cachedProfiles.values()) {
+            MatchResult m = buildMatchResult(profile, symptoms, 0);
+
+            if (m == null || m.matchedCount == 0) continue;
+
+            float score = (float) m.matchedCount / Math.max(1, symptoms.size());
+
+            if (best == null || score > best.score) {
+                m.score = score;
+                best = m;
+            }
+        }
+        return best;
+    }
+
+    private MatchResult buildMatchResult(DiseaseProfile profile, List<String> symptoms, float score) {
+        if (profile == null) return null;
+
+        int count = 0;
+        int severity = 0;
+
+        for (String s : symptoms) {
+            if (profile.symptoms.contains(s)) {
+                count++;
+                severity += getSymptomSeverity(s);
+            }
+        }
+
+        MatchResult r = new MatchResult();
+        r.profile = profile;
+        r.matchedCount = count;
+        r.matchedSeveritySum = severity;
+        r.score = score;
+        return r;
     }
 
     private void loadSymptomSeverity() {
         List<List<String>> rows = readCsv(SEVERITY_FILE);
         for (int i = 1; i < rows.size(); i++) {
             List<String> row = rows.get(i);
-            if (row.size() < 2) {
-                continue;
-            }
+            if (row.size() < 2) continue;
             String symptom = normalizeSymptom(row.get(0));
-            if (TextUtils.isEmpty(symptom)) {
-                continue;
-            }
+            if (TextUtils.isEmpty(symptom)) continue;
             try {
                 cachedSymptomSeverity.put(symptom, Integer.parseInt(row.get(1).trim()));
             } catch (NumberFormatException ignored) {
@@ -185,13 +229,9 @@ public class DiseaseDataRepository {
         List<List<String>> rows = readCsv(DATASET_FILE);
         for (int i = 1; i < rows.size(); i++) {
             List<String> row = rows.get(i);
-            if (row.isEmpty()) {
-                continue;
-            }
+            if (row.isEmpty()) continue;
             String diseaseName = safeCell(row, 0);
-            if (TextUtils.isEmpty(diseaseName)) {
-                continue;
-            }
+            if (TextUtils.isEmpty(diseaseName)) continue;
             DiseaseProfile profile = getOrCreateProfile(diseaseName);
             for (int column = 1; column < row.size(); column++) {
                 String symptom = normalizeSymptom(row.get(column));
@@ -207,9 +247,7 @@ public class DiseaseDataRepository {
         for (int i = 1; i < rows.size(); i++) {
             List<String> row = rows.get(i);
             String diseaseName = safeCell(row, 0);
-            if (TextUtils.isEmpty(diseaseName)) {
-                continue;
-            }
+            if (TextUtils.isEmpty(diseaseName)) continue;
             DiseaseProfile profile = getOrCreateProfile(diseaseName);
             profile.precautions.clear();
             for (int column = 1; column < row.size(); column++) {
@@ -226,58 +264,13 @@ public class DiseaseDataRepository {
         for (int i = 1; i < rows.size(); i++) {
             List<String> row = rows.get(i);
             String diseaseName = safeCell(row, 0);
-            if (TextUtils.isEmpty(diseaseName)) {
-                continue;
-            }
+            if (TextUtils.isEmpty(diseaseName)) continue;
             DiseaseProfile profile = getOrCreateProfile(diseaseName);
             profile.description = safeCell(row, 1);
             profile.doctorDetails = safeCell(row, 2);
             profile.exercise = safeCell(row, 3);
             profile.dietPlan = safeCell(row, 4);
         }
-    }
-
-    private MatchResult findBestHeuristicMatch(List<String> normalizedSymptoms) {
-        MatchResult bestMatch = null;
-        for (DiseaseProfile profile : cachedProfiles.values()) {
-            MatchResult candidate = buildMatchResult(profile, normalizedSymptoms, 0f);
-            if (candidate == null || candidate.matchedCount == 0) {
-                continue;
-            }
-
-            float coverage = (float) candidate.matchedCount / Math.max(1, normalizedSymptoms.size());
-            float diseaseCoverage = (float) candidate.matchedCount / Math.max(1, profile.symptoms.size());
-            float heuristicScore = (coverage * 0.60f) + (diseaseCoverage * 0.25f)
-                    + ((candidate.matchedSeveritySum / (float) Math.max(1, candidate.matchedCount * 7)) * 0.15f);
-            candidate.score = heuristicScore;
-
-            if (bestMatch == null || heuristicScore > bestMatch.score) {
-                bestMatch = candidate;
-            }
-        }
-        return bestMatch;
-    }
-
-    private MatchResult buildMatchResult(DiseaseProfile profile, List<String> normalizedSymptoms, float score) {
-        if (profile == null) {
-            return null;
-        }
-
-        int matchedCount = 0;
-        int matchedSeveritySum = 0;
-        for (String symptom : normalizedSymptoms) {
-            if (profile.symptoms.contains(symptom)) {
-                matchedCount++;
-                matchedSeveritySum += getSymptomSeverity(symptom);
-            }
-        }
-
-        MatchResult result = new MatchResult();
-        result.profile = profile;
-        result.matchedCount = matchedCount;
-        result.matchedSeveritySum = matchedSeveritySum;
-        result.score = score;
-        return result;
     }
 
     private DiseaseProfile getOrCreateProfile(String diseaseName) {
@@ -313,9 +306,7 @@ public class DiseaseDataRepository {
 
     private List<String> parseCsvLine(String line) {
         List<String> values = new ArrayList<>();
-        if (line == null) {
-            return values;
-        }
+        if (line == null) return values;
 
         StringBuilder current = new StringBuilder();
         boolean inQuotes = false;
@@ -340,29 +331,52 @@ public class DiseaseDataRepository {
     }
 
     private List<String> normalizeSymptoms(Collection<String> symptoms) {
-        List<String> normalized = new ArrayList<>();
-        if (symptoms == null) {
-            return normalized;
-        }
-        for (String symptom : symptoms) {
-            String value = normalizeSymptom(symptom);
-            if (!TextUtils.isEmpty(value) && !normalized.contains(value)) {
-                normalized.add(value);
+        List<String> list = new ArrayList<>();
+        if (symptoms == null) return list;
+
+        for (String s : symptoms) {
+            String normalized = normalizeSymptom(s);
+            if (!TextUtils.isEmpty(normalized) && !list.contains(normalized)) {
+                list.add(normalized);
             }
         }
-        return normalized;
+        return list;
     }
 
-    private String normalizeDiseaseKey(String value) {
-        return value == null ? "" : value.trim().toLowerCase(Locale.US);
+    private int getSymptomSeverity(String s) {
+        Integer val = cachedSymptomSeverity.get(normalizeSymptom(s));
+        return val == null ? 3 : val;
+    }
+
+    private String deriveInputSeverity(int d, float t) {
+        if (d > 4 || t > 99) return "High";
+        if (d == 4 || Math.round(t) == 99) return "Medium";
+        return "Low";
+    }
+
+    private int inputSeverityToScore(String s) {
+        if ("High".equalsIgnoreCase(s)) return 6;
+        if ("Medium".equalsIgnoreCase(s)) return 4;
+        return 2;
+    }
+
+    public static String mapSeverityLabel(int s) {
+        if (s <= 3) return "Low";
+        if (s == 4) return "Medium";
+        return "High";
+    }
+
+    private List<String> defaultPrecautions() {
+        return Arrays.asList("Consult doctor", "Stay hydrated", "Rest");
+    }
+
+    private String normalizeDiseaseKey(String v) {
+        return v == null ? "" : v.trim().toLowerCase(Locale.US);
     }
 
     private String normalizeSymptom(String value) {
-        if (value == null) {
-            return "";
-        }
-        return value.trim()
-                .toLowerCase(Locale.US)
+        if (value == null) return "";
+        return value.trim().toLowerCase(Locale.US)
                 .replace('_', ' ')
                 .replaceAll("\\s+", " ");
     }
@@ -371,63 +385,20 @@ public class DiseaseDataRepository {
         return index < row.size() ? row.get(index).trim() : "";
     }
 
-    private int getSymptomSeverity(String symptom) {
-        Integer severity = cachedSymptomSeverity.get(normalizeSymptom(symptom));
-        return severity == null ? 3 : severity;
-    }
-
-    private String deriveInputSeverity(int durationDays, float temperatureF) {
-        if (durationDays > 4 || temperatureF > 99f) {
-            return "High";
-        }
-        if (durationDays == 4 || Math.round(temperatureF) == 99) {
-            return "Medium";
-        }
-        return "Low";
-    }
-
-    private int inputSeverityToScore(String severity) {
-        if ("High".equalsIgnoreCase(severity)) {
-            return 6;
-        }
-        if ("Medium".equalsIgnoreCase(severity)) {
-            return 4;
-        }
-        return 2;
-    }
-
-    public static String mapSeverityLabel(int severityScore) {
-        if (severityScore <= 3) {
-            return "Low";
-        }
-        if (severityScore == 4) {
-            return "Medium";
-        }
-        return "High";
-    }
-
-    private List<String> defaultPrecautions() {
-        List<String> values = new ArrayList<>();
-        values.add("Consult a doctor for a confirmed diagnosis.");
-        values.add("Stay hydrated and monitor symptoms.");
-        values.add("Seek urgent care if breathing trouble or severe fever develops.");
-        return values;
-    }
-
     private static class DiseaseProfile {
-        private String diseaseName;
-        private final Set<String> symptoms = new HashSet<>();
-        private String description;
-        private List<String> precautions = new ArrayList<>();
-        private String doctorDetails;
-        private String dietPlan;
-        private String exercise;
+        String diseaseName;
+        Set<String> symptoms = new HashSet<>();
+        String description;
+        List<String> precautions = new ArrayList<>();
+        String doctorDetails;
+        String dietPlan;
+        String exercise;
     }
 
     private static class MatchResult {
-        private DiseaseProfile profile;
-        private int matchedCount;
-        private int matchedSeveritySum;
-        private float score;
+        DiseaseProfile profile;
+        int matchedCount;
+        int matchedSeveritySum;
+        float score;
     }
 }
