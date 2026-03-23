@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/cardview_default_elevation"
+    android:paddingLeft="@dimen/cardview_default_elevation"
+    android:paddingRight="@dimen/cardview_default_elevation"
+    android:background="@drawable/background_1img"
+    android:paddingTop="@dimen/cardview_default_elevation">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/cardview_default_elevation"
+        app:cardCornerRadius="20dp"
+        android:outlineSpotShadowColor="@android:color/black"
+        android:id="@+id/card"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            android:id="@+id/linearlayout"
+            >
+            <TextView
+                android:id="@+id/txt_pname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dr. N.P. Taware"
+                android:layout_marginTop="10dp"
+
+                android:textSize="20dp"
+                android:layout_marginLeft="3dp"
+                android:textStyle="bold"
+                android:textColor="#FA0766"
+                android:fontFamily="serif">
+            </TextView>
+            <TextView
+                android:id="@+id/txt_patientid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="M.B.B.S, M.D"
+                android:textAllCaps="true"
+                android:layout_marginLeft="3dp"
+                android:textStyle="bold"
+
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="17dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/txt_adddressss"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="10dp"
+            android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="3dp"
+              >
+            </TextView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                 android:textStyle="bold"
+                android:textSize="17dp"
+                android:textColor="@android:color/black"
+                android:text=""
+                android:id="@+id/txt_pphoneee"
+                android:drawablePadding="10dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="@color/white"
+                android:id="@+id/txt_pdatav"
+                android:textStyle="bold"
+                android:textSize="17dp"
+
+
+                ></TextView>
+            <Button
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:text="Print"
+                android:background="@drawable/blur_bg"
+                style="@style/AppFontStyle"
+                android:textColor="@android:color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="2dp"
+                android:shadowColor="@android:color/holo_blue_dark"
+                android:layout_marginTop="20dp"
+                android:id="@+id/btn_printcard"
+                android:drawablePadding="5dp"
+
+                android:textSize="20dp"
+                android:textStyle="bold"></Button>
+
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="130dp"
+                android:layout_height="110dp"
+                android:layout_marginLeft="180dp"
+                android:src="@drawable/lp"
+                android:layout_marginTop="-200dp"></ImageView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

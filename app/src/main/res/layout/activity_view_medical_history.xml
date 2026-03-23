@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_1img"
+    tools:context=".AddHealthissue">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_centerVertical="true"
+
+
+        />
+    <ViewFlipper
+        android:id="@+id/vpimg"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:autoStart="true"
+        android:flipInterval="3000">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/two" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/three" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/four" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/five" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/six" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/one" />
+    </ViewFlipper>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            style="@style/AppFontStyle"
+            android:text="Select History"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:background="@drawable/blur_bg"
+            android:textColor="@android:color/white"
+            android:singleLine="true"/>
+
+        <Spinner
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/spin_historys"
+            android:text="Select History"
+            android:textSize="15sp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            style="@style/AppFontStyle"
+            android:background="@drawable/blur_bg"
+
+            android:textColor="@android:color/white"
+            android:singleLine="true"/>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:id="@+id/table_tblecurrentdiseases"
+
+                android:layout_margin="10dp"
+                android:layout_height="match_parent">
+            </TableLayout>
+        </ScrollView>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

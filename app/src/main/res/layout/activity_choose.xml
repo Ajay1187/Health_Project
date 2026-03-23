@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/background_1img"
+    android:padding="20dp"
+    tools:context=".MainActivity">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:shadowColor="#80000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="6"
+        android:text="Welcome!"
+        android:textColor="@android:color/white"
+        android:textSize="28sp" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:text="Welcome to Health Care App"
+        android:textColor="#E0E0E0"
+        android:textSize="16sp" />
+
+    <!-- Glass Card with Logo -->
+
+    <!-- Doctor Button with Glass Effect -->
+    <LinearLayout
+        android:layout_width="260dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/glass_card"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/logo1_img" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_doctorsignin"
+        android:layout_width="260dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/roboto"
+        android:text="Login As Doctor"
+        android:background="@drawable/blur_bg"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:elevation="12dp"
+        app:background="@drawable/glass_button"
+        app:backgroundTint="@null"
+        app:cornerRadius="25dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_usersignin"
+        android:layout_width="260dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="Login As User"
+        android:background="@drawable/blur_bg"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:elevation="12dp"
+        app:background="@drawable/glass_button"
+        app:backgroundTint="@null"
+        app:cornerRadius="25dp" />
+
+
+
+</LinearLayout>

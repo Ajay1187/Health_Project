@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_1img">
+
+    <!-- Top Space -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
+
+    <!-- Image Slider -->
+    <ViewFlipper
+        android:id="@+id/vpimg"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:autoStart="true"
+        android:flipInterval="3000">
+
+        <ImageView android:layout_width="match_parent" android:layout_height="200dp" android:background="@drawable/two"/>
+        <ImageView android:layout_width="match_parent" android:layout_height="200dp" android:background="@drawable/three"/>
+        <ImageView android:layout_width="match_parent" android:layout_height="200dp" android:background="@drawable/four"/>
+        <ImageView android:layout_width="match_parent" android:layout_height="200dp" android:background="@drawable/five"/>
+        <ImageView android:layout_width="match_parent" android:layout_height="200dp" android:background="@drawable/six"/>
+        <ImageView android:layout_width="match_parent" android:layout_height="200dp" android:background="@drawable/one"/>
+    </ViewFlipper>
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/btn_current"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current Disease"
+        android:layout_margin="10dp"
+        android:background="@drawable/blur_bg"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/btn_old"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Old Disease History"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/blur_bg"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"/>
+
+    <!-- Table Section -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:id="@+id/table_tblecurrentdisease"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+
+    </ScrollView>
+
+</LinearLayout>
