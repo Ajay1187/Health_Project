@@ -17,7 +17,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class EnterSymptomsActivity extends AppCompatActivity {
 
@@ -158,7 +157,6 @@ public class EnterSymptomsActivity extends AppCompatActivity {
     private MultiAutoCompleteTextView etSymptoms;
     private EditText etDuration;
     private EditText etTemperature;
-    private TextView tvCalculatedSeverity;
     private Button btnPredict;
 
     @Override
@@ -169,7 +167,6 @@ public class EnterSymptomsActivity extends AppCompatActivity {
         etSymptoms = findViewById(R.id.et_symptoms);
         etDuration = findViewById(R.id.et_duration);
         etTemperature = findViewById(R.id.et_temperature);
-        tvCalculatedSeverity = findViewById(R.id.tv_calculated_severity);
         btnPredict = findViewById(R.id.btn_predict);
 
         ArrayAdapter<String> symptomsAdapter = new ArrayAdapter<>(this,
@@ -178,24 +175,6 @@ public class EnterSymptomsActivity extends AppCompatActivity {
         etSymptoms.setAdapter(symptomsAdapter);
         etSymptoms.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
-        TextWatcher severityWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                updateCalculatedSeverity();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        etDuration.addTextChangedListener(severityWatcher);
-        etTemperature.addTextChangedListener(severityWatcher);
-        updateCalculatedSeverity();
 
         btnPredict.setOnClickListener(v -> submitPrediction());
     }
@@ -217,6 +196,10 @@ public class EnterSymptomsActivity extends AppCompatActivity {
 
     private void submitPrediction() {
         String rawSymptoms = etSymptoms.getText().toString().trim();
+        rawSymptoms = rawSymptoms.replaceAll(",\\s*$", "").trim();
+        etSymptoms.setText(rawSymptoms);
+        etSymptoms.setSelection(rawSymptoms.length());
+
         String durationText = etDuration.getText().toString().trim();
         String temperatureText = etTemperature.getText().toString().trim();
 
