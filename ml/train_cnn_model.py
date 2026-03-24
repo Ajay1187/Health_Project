@@ -17,6 +17,10 @@ Supports:
 1) dataset.csv disease/symptom-column schema
 2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
 
+Supports:
+1) dataset.csv disease/symptom-column schema
+2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
+
 Usage:
 python ml/train_cnn_model.py --data ml/dataset.csv --out-dir ml/output
 """

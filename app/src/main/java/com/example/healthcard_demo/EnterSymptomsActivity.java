@@ -17,8 +17,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class EnterSymptomsActivity extends AppCompatActivity {
+
+    private static final Locale COMPAT_LOCALE = Locale.US;
 
     private static final List<String> PREDEFINED_SYMPTOMS = Arrays.asList(
             "itching",
