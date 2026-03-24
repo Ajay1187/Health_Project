@@ -11,12 +11,13 @@
         android:padding="16dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Prediction Result"
             android:textStyle="bold"
             android:textSize="24sp"
             android:textColor="@android:color/black"
+            android:gravity="center"
             android:layout_marginBottom="16dp" />
 
         <TextView
@@ -57,6 +58,8 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@android:color/black"
+            android:background="@drawable/txt_back"
+            android:padding="12dp"
             android:layout_marginBottom="18dp" />
 
         <Button
