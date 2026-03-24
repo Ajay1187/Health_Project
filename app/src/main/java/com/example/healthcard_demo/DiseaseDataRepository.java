@@ -1,3 +1,4 @@
+```java
 package com.example.healthcard_demo;
 
 import android.content.Context;
@@ -48,7 +49,7 @@ public class DiseaseDataRepository {
         MatchResult selectedMatch = heuristicMatch;
         float modelConfidence = heuristicMatch == null ? 0.35f : heuristicMatch.score;
 
-        // ✅ ML Model Prediction (if available)
+        // ML Prediction
         if (cachedClassifier != null && cachedClassifier.isReady() && !normalizedSymptoms.isEmpty()) {
             TrainedDiseaseClassifier.Prediction modelPrediction =
                     cachedClassifier.predict(normalizedSymptoms);
@@ -72,7 +73,6 @@ public class DiseaseDataRepository {
         response.setPredictionTimestamp(now);
         response.setInputSeverity(inputSeverity);
 
-        // ❌ No match case
         if (selectedMatch == null || selectedMatch.profile == null) {
             response.setPredictedDisease("General Viral Infection");
             response.setDescription("Symptoms do not strongly match a disease.");
@@ -178,21 +178,121 @@ public class DiseaseDataRepository {
         return r;
     }
 
-    private void loadSymptomSeverity() { /* same as yours */ }
-    private void loadDiseaseDataset() { /* same as yours */ }
-    private void loadPrecautions() { /* same as yours */ }
-    private void loadDiseaseDetails() { /* same as yours */ }
+    private void loadSymptomSeverity() {
+        List<List<String>> rows = readCsv(SEVERITY_FILE);
+        for (int i = 1; i < rows.size(); i++) {
+            List<String> row = rows.get(i);
+            if (row.size() < 2) continue;
+
+            String symptom = normalizeSymptom(row.get(0));
+            if (TextUtils.isEmpty(symptom)) continue;
+
+            try {
+                cachedSymptomSeverity.put(symptom, Integer.parseInt(row.get(1).trim()));
+            } catch (Exception e) {
+                cachedSymptomSeverity.put(symptom, 3);
+            }
+        }
+    }
+
+    private void loadDiseaseDataset() {
+        List<List<String>> rows = readCsv(DATASET_FILE);
+        for (int i = 1; i < rows.size(); i++) {
+            List<String> row = rows.get(i);
+            if (row.isEmpty()) continue;
+
+            String disease = row.get(0);
+            if (TextUtils.isEmpty(disease)) continue;
+
+            DiseaseProfile profile = getOrCreateProfile(disease);
+
+            for (int j = 1; j < row.size(); j++) {
+                String s = normalizeSymptom(row.get(j));
+                if (!TextUtils.isEmpty(s)) profile.symptoms.add(s);
+            }
+        }
+    }
+
+    private void loadPrecautions() {
+        List<List<String>> rows = readCsv(PRECAUTION_FILE);
+        for (int i = 1; i < rows.size(); i++) {
+            List<String> row = rows.get(i);
+            String disease = row.get(0);
+            if (TextUtils.isEmpty(disease)) continue;
+
+            DiseaseProfile profile = getOrCreateProfile(disease);
+            profile.precautions.clear();
+
+            for (int j = 1; j < row.size(); j++) {
+                if (!TextUtils.isEmpty(row.get(j))) {
+                    profile.precautions.add(row.get(j));
+                }
+            }
+        }
+    }
+
+    private void loadDiseaseDetails() {
+        List<List<String>> rows = readCsv(DETAILS_FILE);
+        for (int i = 1; i < rows.size(); i++) {
+            List<String> row = rows.get(i);
+            String disease = row.get(0);
+            if (TextUtils.isEmpty(disease)) continue;
+
+            DiseaseProfile profile = getOrCreateProfile(disease);
+            profile.description = safe(row, 1);
+            profile.doctorDetails = safe(row, 2);
+            profile.exercise = safe(row, 3);
+            profile.dietPlan = safe(row, 4);
+        }
+    }
+
+    private DiseaseProfile getOrCreateProfile(String name) {
+        String key = normalizeDiseaseKey(name);
+        DiseaseProfile p = cachedProfiles.get(key);
+
+        if (p == null) {
+            p = new DiseaseProfile();
+            p.diseaseName = name;
+            p.precautions = defaultPrecautions();
+            cachedProfiles.put(key, p);
+        }
+        return p;
+    }
+
+    private List<List<String>> readCsv(String file) {
+        List<List<String>> rows = new ArrayList<>();
+
+        try (InputStream is = context.getAssets().open(file);
+             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                rows.add(Arrays.asList(line.split(",")));
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return rows;
+    }
 
     private List<String> normalizeSymptoms(Collection<String> symptoms) {
         List<String> list = new ArrayList<>();
         if (symptoms == null) return list;
 
         for (String s : symptoms) {
-            if (!TextUtils.isEmpty(s)) {
-                list.add(s.trim().toLowerCase());
+            String v = normalizeSymptom(s);
+            if (!TextUtils.isEmpty(v) && !list.contains(v)) {
+                list.add(v);
             }
         }
         return list;
+    }
+
+    private String normalizeSymptom(String s) {
+        if (s == null) return "";
+        return s.trim().toLowerCase().replace("_", " ");
     }
 
     private int getSymptomSeverity(String s) {
@@ -219,11 +319,19 @@ public class DiseaseDataRepository {
     }
 
     private List<String> defaultPrecautions() {
-        return Arrays.asList("Consult doctor", "Stay hydrated", "Rest");
+        return Arrays.asList(
+                "Consult a doctor",
+                "Stay hydrated",
+                "Get proper rest"
+        );
     }
 
     private String normalizeDiseaseKey(String v) {
-        return v == null ? "" : v.toLowerCase();
+        return v == null ? "" : v.trim().toLowerCase();
+    }
+
+    private String safe(List<String> row, int i) {
+        return i < row.size() ? row.get(i) : "";
     }
 
     private static class DiseaseProfile {
@@ -243,3 +351,4 @@ public class DiseaseDataRepository {
         float score;
     }
 }
+```

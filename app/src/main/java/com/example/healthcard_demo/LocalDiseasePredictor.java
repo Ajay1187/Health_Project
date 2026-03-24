@@ -1,7 +1,7 @@
+```java
 package com.example.healthcard_demo;
 
 import android.content.Context;
-
 import java.util.List;
 
 public class LocalDiseasePredictor {
@@ -16,3 +16,4 @@ public class LocalDiseasePredictor {
         return repository.predictDisease(symptoms, durationDays, temperatureF);
     }
 }
+```
