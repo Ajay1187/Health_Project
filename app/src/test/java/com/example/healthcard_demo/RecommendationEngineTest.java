@@ -2,14 +2,14 @@ package com.example.healthcard_demo;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 
 public class RecommendationEngineTest {
 
     @Test
-    public void getRecommendation_shouldReturnDefaultForUnknownDisease() {
-        RecommendationEngine engine = new RecommendationEngine();
-        RecommendationEngine.Recommendation recommendation = engine.getRecommendation("abc_unknown");
-        assertFalse(recommendation.getMedicines().isEmpty());
+    public void mapSeverityLabel_shouldReturnExpectedBands() {
+        assertEquals("Low", DiseaseDataRepository.mapSeverityLabel(3));
+        assertEquals("Medium", DiseaseDataRepository.mapSeverityLabel(4));
+        assertEquals("High", DiseaseDataRepository.mapSeverityLabel(6));
     }
 }
