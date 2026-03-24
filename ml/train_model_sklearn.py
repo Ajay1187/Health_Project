@@ -1,4 +1,3 @@
-"""Train a lightweight ML classifier for disease prediction from ml/dataset.csv.
 """
 Train a lightweight ML classifier for disease prediction.
 
@@ -32,8 +31,6 @@ def main():
     args = parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
 
-    raw_df = pd.read_csv(args.data)
-    df = prepare_dataframe_from_dataset(raw_df)
     # Load dataset
     raw_df = pd.read_csv(args.data)
 
@@ -65,13 +62,6 @@ def main():
     joblib.dump(model, os.path.join(args.out_dir, "disease_rf_model.joblib"))
     joblib.dump(label_encoder, os.path.join(args.out_dir, "label_encoder.joblib"))
 
-    with open(os.path.join(args.out_dir, "feature_config_sklearn.json"), "w", encoding="utf-8") as handle:
-        json.dump({"feature_names": FEATURE_COLUMNS}, handle, indent=2)
-
-    with open(os.path.join(args.out_dir, "metrics_sklearn.txt"), "w", encoding="utf-8") as handle:
-        handle.write(f"test_accuracy={acc:.4f}\n")
-        handle.write(f"training_samples={len(X_train)}\n")
-        handle.write(f"test_samples={len(X_test)}\n")
     # Save config
     with open(os.path.join(args.out_dir, "feature_config_sklearn.json"), "w", encoding="utf-8") as f:
         json.dump({"feature_names": FEATURE_COLUMNS}, f, indent=2)

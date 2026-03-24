@@ -1,28 +1,25 @@
 # Disease Model Training
 
-This folder contains the CNN training pipeline used by the app prediction flow.
+This folder contains multiple training options for disease prediction.
 
-## Runtime prediction path
+## Dataset used for training
 
-The Android app prefers a TensorFlow Lite CNN model for disease prediction and falls back to a dataset-overlap matcher when the TFLite asset has not yet been bundled.
-Train the model from `ml/dataset.csv` and copy the generated `disease_cnn.tflite` file into:
+The training scripts now build features directly from `ml/dataset.csv`.
+Each `Symptom_*` column is converted into a multi-hot vector across the shared
+131-symptom feature schema used by the project.
 
-`app/src/main/assets/disease_data/disease_cnn.tflite`
+## Recommended app-linked trainer
 
-## CNN trainer
+The Android app is currently linked to the exported JSON model produced by:
 
 ```bash
-python ml/train_cnn_model.py --data ml/dataset.csv --out-dir ml/output --epochs 30
+python ml/train_symptom_nb_model.py \
+  --data ml/dataset.csv \
+  --out app/src/main/assets/disease_data/disease_nb_model.json \
+  --metrics ml/output/disease_nb_metrics.txt
 ```
 
-Outputs:
-- `ml/output/disease_cnn.keras`
-- `ml/output/disease_cnn.tflite`
-- `ml/output/labels.txt`
-- `ml/output/feature_config.json`
-- `ml/output/metrics.txt`
-
-## Optional sklearn trainer
+## Scikit-learn trainer
 
 ```bash
 python ml/train_model_sklearn.py --data ml/dataset.csv --out-dir ml/output
