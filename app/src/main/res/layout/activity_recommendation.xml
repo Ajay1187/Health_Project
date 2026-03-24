@@ -20,35 +20,43 @@
             android:layout_marginBottom="12dp" />
 
         <TextView
-            android:id="@+id/tv_reco_medicines"
+            android:id="@+id/tv_reco_disease_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
 
         <TextView
-            android:id="@+id/tv_reco_diet"
+            android:id="@+id/tv_reco_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tv_reco_exercise"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:id="@+id/tv_reco_precautions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="10dp" />
 
         <TextView
-            android:id="@+id/tv_reco_doctors"
+            android:id="@+id/tv_reco_doctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/tv_reco_diet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/tv_reco_exercise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black" />
