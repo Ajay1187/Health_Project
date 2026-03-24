@@ -1,30 +1,37 @@
 """Train a lightweight 1D CNN for symptom-based disease classification.
 
+Supports:
+1) dataset.csv disease/symptom-column schema
+2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
+
 Usage:
-python ml/train_cnn_model.py --data ml/sample_disease_dataset.csv --out-dir ml/output
+python ml/train_cnn_model.py --data ml/dataset.csv --out-dir ml/output
 """
 
 import argparse
+import json
 import os
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
+from training_data_utils import FEATURE_COLUMNS, prepare_dataframe_from_dataset
 
-FEATURE_COLUMNS = [
-    "fever", "cough", "headache", "fatigue", "vomiting",
-    "chest_pain", "sore_throat", "body_pain", "nausea", "breathlessness",
-    "severity", "duration_days"
-]
+SYMPTOM_TEXT_COLUMN = "Symptoms"
+SEVERITY_TEXT_COLUMN = "Severity"
+DURATION_TEXT_COLUMN = "Duration(days)"
+PREDICTED_DISEASE_COLUMN = "Predicted_Disease"
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data", required=True, help="CSV dataset path")
-    parser.add_argument("--out-dir", required=True, help="Output directory")
+    parser.add_argument("--data", required=True)
+    parser.add_argument("--out-dir", required=True)
     parser.add_argument("--epochs", type=int, default=30)
+    parser.add_argument("--batch-size", type=int, default=32)
     return parser.parse_args()
 
 
@@ -43,15 +50,52 @@ def build_model(input_length, num_classes):
     return model
 
 
+def prepare_dataset(df):
+    if SYMPTOM_TEXT_COLUMN in df.columns:
+        severity_map = {"Low": 0.33, "Medium": 0.66, "High": 1.0}
+
+        vocab = set()
+        for value in df[SYMPTOM_TEXT_COLUMN].dropna():
+            for token in str(value).split("|"):
+                normalized = token.strip().lower().replace(" ", "_")
+                if normalized:
+                    vocab.add(normalized)
+        vocab = sorted(vocab)
+
+        def encode(symptom_text):
+            tokens = {
+                token.strip().lower().replace(" ", "_")
+                for token in str(symptom_text).split("|")
+                if token.strip()
+            }
+            return [1.0 if vocab_item in tokens else 0.0 for vocab_item in vocab]
+
+        symptom_matrix = np.array([encode(value) for value in df[SYMPTOM_TEXT_COLUMN]], dtype=np.float32)
+        severity = df[SEVERITY_TEXT_COLUMN].map(severity_map).astype(np.float32).to_numpy().reshape(-1, 1)
+        duration = df[DURATION_TEXT_COLUMN].astype(np.float32).to_numpy().reshape(-1, 1)
+
+        X = np.concatenate([symptom_matrix, severity, duration], axis=1)
+        y = df[PREDICTED_DISEASE_COLUMN].to_numpy()
+        feature_names = vocab + ["severity", "duration_days"]
+        return X, y, feature_names
+
+    if "Disease" in df.columns:
+        prepared_df = prepare_dataframe_from_dataset(df)
+        X = prepared_df[FEATURE_COLUMNS].values.astype(np.float32)
+        y = prepared_df["disease"].values
+        return X, y, FEATURE_COLUMNS
+
+    X = df[FEATURE_COLUMNS].values.astype(np.float32)
+    y = df["disease"].values
+    return X, y, FEATURE_COLUMNS
+
+
 def main():
     args = parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
 
     df = pd.read_csv(args.data)
-    df = df.dropna(subset=FEATURE_COLUMNS + ["disease"])
-
-    X = df[FEATURE_COLUMNS].values.astype(np.float32)
-    y = df["disease"].values
+    X, y, feature_names = prepare_dataset(df)
 
     encoder = LabelEncoder()
     y_encoded = encoder.fit_transform(y)
@@ -64,29 +108,37 @@ def main():
     X_test = np.expand_dims(X_test, axis=-1)
 
     model = build_model(X_train.shape[1], len(encoder.classes_))
-    model.fit(X_train, y_train, epochs=args.epochs, batch_size=32, validation_split=0.1, verbose=2)
+    model.fit(
+        X_train,
+        y_train,
+        epochs=args.epochs,
+        batch_size=args.batch_size,
+        validation_split=0.1,
+        verbose=2,
+    )
 
     loss, acc = model.evaluate(X_test, y_test, verbose=0)
     print(f"Test accuracy: {acc:.4f}")
 
-    model_path = os.path.join(args.out_dir, "disease_cnn.keras")
-    model.save(model_path)
+    model.save(os.path.join(args.out_dir, "disease_cnn.keras"))
 
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
     tflite_model = converter.convert()
-    tflite_path = os.path.join(args.out_dir, "disease_cnn.tflite")
-    with open(tflite_path, "wb") as f:
-        f.write(tflite_model)
+    with open(os.path.join(args.out_dir, "disease_cnn.tflite"), "wb") as handle:
+        handle.write(tflite_model)
 
-    labels_path = os.path.join(args.out_dir, "labels.txt")
-    with open(labels_path, "w", encoding="utf-8") as f:
-        for item in encoder.classes_:
-            f.write(item + "\n")
+    with open(os.path.join(args.out_dir, "labels.txt"), "w", encoding="utf-8") as handle:
+        for label in encoder.classes_:
+            handle.write(label + "\n")
 
-    metrics_path = os.path.join(args.out_dir, "metrics.txt")
-    with open(metrics_path, "w", encoding="utf-8") as f:
-        f.write(f"test_accuracy={acc:.4f}\n")
-        f.write(f"test_loss={loss:.4f}\n")
+    with open(os.path.join(args.out_dir, "feature_config.json"), "w", encoding="utf-8") as handle:
+        json.dump({"feature_names": feature_names}, handle, indent=2)
+
+    with open(os.path.join(args.out_dir, "metrics.txt"), "w", encoding="utf-8") as handle:
+        handle.write(f"test_accuracy={acc:.4f}\n")
+        handle.write(f"test_loss={loss:.4f}\n")
+        handle.write(f"training_samples={len(X_train)}\n")
+        handle.write(f"test_samples={len(X_test)}\n")
 
 
 if __name__ == "__main__":
