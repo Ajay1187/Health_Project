@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -176,6 +179,21 @@ public class EnterSymptomsActivity extends AppCompatActivity {
         btnPredict.setOnClickListener(v -> submitPrediction());
     }
 
+    private void updateCalculatedSeverity() {
+        int duration = parseInt(etDuration.getText().toString().trim());
+        float temperature = parseFloat(etTemperature.getText().toString().trim());
+        String severity;
+        if (duration > 4 || temperature > 99f) {
+            severity = "High";
+        } else if (duration == 4 || Math.round(temperature) == 99) {
+            severity = "Medium";
+        } else {
+            severity = "Low";
+        }
+        tvCalculatedSeverity.setText(String.format(Locale.US,
+                "Calculated Severity: %s (High if duration > 4 or temperature > 99°F; Medium if equal to 4 days or 99°F; else Low)", severity));
+    }
+
     private void submitPrediction() {
         String rawSymptoms = etSymptoms.getText().toString().trim();
         rawSymptoms = rawSymptoms.replaceAll(",\\s*$", "").trim();
@@ -234,6 +252,22 @@ public class EnterSymptomsActivity extends AppCompatActivity {
         intent.putExtra("predictionTimestamp", result.getPredictionTimestamp());
         intent.putExtra("description", safeText(result.getDescription(), "Description unavailable."));
         startActivity(intent);
+    }
+
+    private int parseInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private float parseFloat(String value) {
+        try {
+            return Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            return 0f;
+        }
     }
 
     private String safeText(String value, String fallback) {
