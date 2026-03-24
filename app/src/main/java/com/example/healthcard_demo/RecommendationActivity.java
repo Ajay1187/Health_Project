@@ -28,7 +28,7 @@ public class RecommendationActivity extends AppCompatActivity {
         TextView tvDiet = findViewById(R.id.tv_reco_diet);
         TextView tvExercise = findViewById(R.id.tv_reco_exercise);
 
-        tvTitle.setText("Recommendation");
+        tvTitle.setText("RECOMMENDATION");
         tvDiseaseName.setText("Disease Name: " + (TextUtils.isEmpty(disease) ? "Unknown" : disease));
         tvDescription.setText("Disease Description: " + safeText(recommendation.getDescription()));
         tvPrecautions.setText(toBullets("Disease Precaution", recommendation.getPrecautions()));
