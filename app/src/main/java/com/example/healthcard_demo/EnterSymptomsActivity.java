@@ -157,6 +157,7 @@ public class EnterSymptomsActivity extends AppCompatActivity {
     private MultiAutoCompleteTextView etSymptoms;
     private EditText etDuration;
     private EditText etTemperature;
+    private TextView tvCalculatedSeverity;
     private Button btnPredict;
 
     @Override
@@ -167,6 +168,7 @@ public class EnterSymptomsActivity extends AppCompatActivity {
         etSymptoms = findViewById(R.id.et_symptoms);
         etDuration = findViewById(R.id.et_duration);
         etTemperature = findViewById(R.id.et_temperature);
+        tvCalculatedSeverity = findViewById(R.id.tv_calculated_severity);
         btnPredict = findViewById(R.id.btn_predict);
 
         ArrayAdapter<String> symptomsAdapter = new ArrayAdapter<>(this,
