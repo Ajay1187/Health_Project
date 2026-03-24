@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class PredictionHistoryActivity extends AppCompatActivity {
 
     private PredictionHistoryStore historyStore;
     private ArrayAdapter<String> adapter;
+    private TextView tvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class PredictionHistoryActivity extends AppCompatActivity {
         EditText etSearch = findViewById(R.id.et_history_search);
         Switch swSort = findViewById(R.id.sw_sort_newest);
         ListView lvHistory = findViewById(R.id.lv_history);
+        tvEmpty = findViewById(R.id.tv_history_empty);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         lvHistory.setAdapter(adapter);
@@ -39,7 +43,8 @@ public class PredictionHistoryActivity extends AppCompatActivity {
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -47,7 +52,8 @@ public class PredictionHistoryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         swSort.setOnCheckedChangeListener((buttonView, isChecked) -> refreshList(etSearch.getText().toString(), isChecked));
@@ -56,16 +62,22 @@ public class PredictionHistoryActivity extends AppCompatActivity {
     private void refreshList(String query, boolean newestFirst) {
         List<PredictionHistoryItem> items = historyStore.searchAndSort(query, newestFirst);
         List<String> rows = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm a", Locale.US);
         for (PredictionHistoryItem item : items) {
+            String description = item.getDescription();
+            if (TextUtils.isEmpty(description)) {
+                description = "Description unavailable.";
+            }
             rows.add(String.format(Locale.US,
-                    "%s | Conf: %.2f%% | Severity: %s\n%s",
+                    "%s\nSeverity: %s (Score %d/7)\nPredicted on: %s\n%s",
                     item.getDisease(),
-                    item.getConfidence() * 100f,
                     item.getSeverity(),
-                    sdf.format(new Date(item.getTimestamp()))));
+                    item.getSeverityScore(),
+                    sdf.format(new Date(item.getTimestamp())),
+                    description));
         }
         adapter.clear();
         adapter.addAll(rows);
+        tvEmpty.setText(items.isEmpty() ? "No prediction history found yet." : "");
     }
 }
