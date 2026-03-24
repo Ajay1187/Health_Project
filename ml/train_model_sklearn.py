@@ -1,5 +1,4 @@
-"""
-Train a lightweight ML classifier for disease prediction.
+"""Train a lightweight ML classifier for disease prediction from ml/dataset.csv.
 
 Usage:
 python ml/train_model_sklearn.py --data ml/dataset.csv --out-dir ml/output
@@ -16,7 +15,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-# ✅ Clean import (best practice)
 from training_data_utils import FEATURE_COLUMNS, prepare_dataframe_from_dataset
 
 
@@ -31,8 +29,8 @@ def main():
     args = parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
 
-    # Load dataset
     raw_df = pd.read_csv(args.data)
+    df = prepare_dataframe_from_dataset(raw_df)
 
     # ✅ Normalize dataset
     df = prepare_dataframe_from_dataset(raw_df)
@@ -62,15 +60,13 @@ def main():
     joblib.dump(model, os.path.join(args.out_dir, "disease_rf_model.joblib"))
     joblib.dump(label_encoder, os.path.join(args.out_dir, "label_encoder.joblib"))
 
-    # Save config
-    with open(os.path.join(args.out_dir, "feature_config_sklearn.json"), "w", encoding="utf-8") as f:
-        json.dump({"feature_names": FEATURE_COLUMNS}, f, indent=2)
+    with open(os.path.join(args.out_dir, "feature_config_sklearn.json"), "w", encoding="utf-8") as handle:
+        json.dump({"feature_names": FEATURE_COLUMNS}, handle, indent=2)
 
-    # Save metrics
-    with open(os.path.join(args.out_dir, "metrics_sklearn.txt"), "w", encoding="utf-8") as f:
-        f.write(f"test_accuracy={acc:.4f}\n")
-        f.write(f"training_samples={len(X_train)}\n")
-        f.write(f"test_samples={len(X_test)}\n")
+    with open(os.path.join(args.out_dir, "metrics_sklearn.txt"), "w", encoding="utf-8") as handle:
+        handle.write(f"test_accuracy={acc:.4f}\n")
+        handle.write(f"training_samples={len(X_train)}\n")
+        handle.write(f"test_samples={len(X_test)}\n")
 
     print(f"Training complete. Accuracy={acc:.4f}")
 
