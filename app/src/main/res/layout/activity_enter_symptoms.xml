@@ -17,14 +17,14 @@
             android:text="✚ Predict Disease ✚"
             android:textStyle="bold"
             android:textSize="24sp"
-            android:textColor="#2E7D32"
+            android:textColor="#B2DFDB"
             android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enter symptoms, number of days/duration from the symptoms occured/visible and temperature of body"
-            android:textColor="@android:color/black"
+            android:textColor="#E3F2FD"
             android:layout_marginBottom="16dp" />
 
         <MultiAutoCompleteTextView
@@ -34,6 +34,8 @@
             android:hint="Symptoms (comma separated)"
             android:background="@drawable/txt_back"
             android:padding="12dp"
+            android:textColor="#E3F2FD"
+            android:textColorHint="#B2DFDB"
             android:layout_marginBottom="12dp" />
 
         <EditText
@@ -44,6 +46,8 @@
             android:inputType="number"
             android:background="@drawable/txt_back"
             android:padding="12dp"
+            android:textColor="#E3F2FD"
+            android:textColorHint="#B2DFDB"
             android:layout_marginBottom="12dp" />
 
         <EditText
@@ -54,6 +58,8 @@
             android:inputType="numberDecimal"
             android:background="@drawable/txt_back"
             android:padding="12dp"
+            android:textColor="#E3F2FD"
+            android:textColorHint="#B2DFDB"
             android:layout_marginBottom="16dp" />
 
 

@@ -29,6 +29,10 @@ Supports:
 1) dataset.csv disease/symptom-column schema
 2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
 
+Supports:
+1) dataset.csv disease/symptom-column schema
+2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
+
 Usage:
 python ml/train_cnn_model.py --data ml/dataset.csv --out-dir ml/output
 """
@@ -44,6 +48,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 from training_data_utils import FEATURE_COLUMNS, prepare_dataframe_from_dataset
+
+SYMPTOM_TEXT_COLUMN = "Symptoms"
+SEVERITY_TEXT_COLUMN = "Severity"
+DURATION_TEXT_COLUMN = "Duration(days)"
+PREDICTED_DISEASE_COLUMN = "Predicted_Disease"
+
 
 SYMPTOM_TEXT_COLUMN = "Symptoms"
 SEVERITY_TEXT_COLUMN = "Severity"
