@@ -3,13 +3,18 @@ package com.example.healthcard_demo;
 public class PredictionHistoryItem {
     private String disease;
     private String severity;
-    private float confidence;
+    private int severityScore;
+    private String description;
     private long timestamp;
 
-    public PredictionHistoryItem(String disease, String severity, float confidence, long timestamp) {
+    public PredictionHistoryItem() {
+    }
+
+    public PredictionHistoryItem(String disease, String severity, int severityScore, String description, long timestamp) {
         this.disease = disease;
         this.severity = severity;
-        this.confidence = confidence;
+        this.severityScore = severityScore;
+        this.description = description;
         this.timestamp = timestamp;
     }
 
@@ -21,8 +26,12 @@ public class PredictionHistoryItem {
         return severity;
     }
 
-    public float getConfidence() {
-        return confidence;
+    public int getSeverityScore() {
+        return severityScore;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public long getTimestamp() {
