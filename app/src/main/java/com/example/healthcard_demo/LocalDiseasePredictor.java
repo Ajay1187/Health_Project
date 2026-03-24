@@ -1,60 +1,43 @@
 package com.example.healthcard_demo;
 
+import android.content.Context;
+
+import java.io.IOException;
 import java.util.List;
 
 public class LocalDiseasePredictor {
 
-    public DiseaseResponse predict(List<Float> features) {
-        DiseaseResponse response = new DiseaseResponse();
+    private final DiseaseDataRepository repository;
+    private final CnnDiseaseClassifier cnnDiseaseClassifier;
+    private final boolean usingCnnModel;
 
-        if (features == null || features.size() < SymptomPreprocessor.FEATURE_SIZE) {
-            response.setPredictedDisease("General Viral Infection");
-            response.setConfidence(0.55f);
-            response.setSeverity("Mild");
-            return response;
+    public LocalDiseasePredictor(Context context) {
+        this.repository = new DiseaseDataRepository(context);
+
+        CnnDiseaseClassifier classifier = null;
+        boolean cnnAvailable = false;
+        try {
+            classifier = new CnnDiseaseClassifier(context);
+            cnnAvailable = true;
+        } catch (IOException ignored) {
+            // Fall back to dataset-overlap prediction until the TFLite asset is bundled.
+        }
+        this.cnnDiseaseClassifier = classifier;
+        this.usingCnnModel = cnnAvailable;
+    }
+
+    public DiseaseResponse predict(List<String> symptoms, int durationDays, float temperatureF) {
+        if (!usingCnnModel || cnnDiseaseClassifier == null) {
+            return repository.predictFromSymptoms(symptoms, durationDays, temperatureF);
         }
 
-        float fever = features.get(0);
-        float cough = features.get(1);
-        float headache = features.get(2);
-        float fatigue = features.get(3);
-        float vomiting = features.get(4);
-        float chestPain = features.get(5);
-        float nausea = features.get(8);
-        float breathlessness = features.get(9);
-        float severitySignal = features.get(10);
-
-        String predicted;
-        float confidence;
-
-        if (fever == 1f && vomiting == 1f && nausea == 1f) {
-            predicted = "Dengue";
-            confidence = 0.84f;
-        } else if (cough == 1f && chestPain == 1f && breathlessness == 1f) {
-            predicted = "Bronchitis";
-            confidence = 0.81f;
-        } else if (headache == 1f && fatigue == 1f && fever == 0f) {
-            predicted = "Migraine";
-            confidence = 0.79f;
-        } else if (fever == 1f && cough == 1f) {
-            predicted = "Flu";
-            confidence = 0.77f;
-        } else {
-            predicted = "General Viral Infection";
-            confidence = 0.62f;
-        }
-
-        response.setPredictedDisease(predicted);
-        response.setConfidence(confidence);
-
-        if (severitySignal >= 0.9f) {
-            response.setSeverity("Severe");
-        } else if (severitySignal >= 0.6f) {
-            response.setSeverity("Moderate");
-        } else {
-            response.setSeverity("Mild");
-        }
-
-        return response;
+        CnnDiseaseClassifier.Prediction prediction = cnnDiseaseClassifier.predict(symptoms);
+        return repository.buildResponseForPrediction(
+                prediction.getDiseaseName(),
+                prediction.getConfidence(),
+                symptoms,
+                durationDays,
+                temperatureF
+        );
     }
 }
