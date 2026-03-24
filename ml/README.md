@@ -33,3 +33,16 @@ Outputs:
 - `ml/output/label_encoder.joblib`
 - `ml/output/feature_config_sklearn.json`
 - `ml/output/metrics_sklearn.txt`
+
+## CNN trainer
+
+```bash
+python ml/train_cnn_model.py --data ml/dataset.csv --out-dir ml/output --epochs 30
+```
+
+Outputs:
+- `ml/output/disease_cnn.keras`
+- `ml/output/disease_cnn.tflite`
+- `ml/output/labels.txt`
+- `ml/output/feature_config.json`
+- `ml/output/metrics.txt`

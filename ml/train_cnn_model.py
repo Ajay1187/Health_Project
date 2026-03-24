@@ -1,4 +1,21 @@
-"""Train a lightweight 1D CNN for symptom-based disease classification.
+"""
+Train a lightweight 1D CNN for symptom-based disease classification.
+
+Supports two CSV schemas:
+1) Numeric features
+2) Text features
+
+Supports:
+1) dataset.csv disease/symptom-column schema
+2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
+
+Supports:
+1) dataset.csv disease/symptom-column schema
+2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
+
+Supports:
+1) dataset.csv disease/symptom-column schema
+2) textual Symptoms/Severity/Duration(days)/Predicted_Disease schema
 
 Supports:
 1) dataset.csv disease/symptom-column schema
@@ -46,7 +63,9 @@ def build_model(input_length, num_classes):
         tf.keras.layers.Dropout(0.2),
         tf.keras.layers.Dense(num_classes, activation="softmax"),
     ])
-    model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+    model.compile(optimizer="adam",
+                  loss="sparse_categorical_crossentropy",
+                  metrics=["accuracy"])
     return model
 
 
@@ -101,7 +120,7 @@ def main():
     y_encoded = encoder.fit_transform(y)
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded
+        X, y_encoded, test_size=0.2, random_state=42
     )
 
     X_train = np.expand_dims(X_train, axis=-1)
@@ -117,8 +136,13 @@ def main():
         verbose=2,
     )
 
-    loss, acc = model.evaluate(X_test, y_test, verbose=0)
-    print(f"Test accuracy: {acc:.4f}")
+    model.fit(
+        X_train, y_train,
+        epochs=args.epochs,
+        batch_size=args.batch_size,
+        validation_split=0.1,
+        verbose=2
+    )
 
     model.save(os.path.join(args.out_dir, "disease_cnn.keras"))
 
