@@ -32,22 +32,31 @@ def main():
     raw_df = pd.read_csv(args.data)
     df = prepare_dataframe_from_dataset(raw_df)
 
+    # ✅ Normalize dataset
+    df = prepare_dataframe_from_dataset(raw_df)
+
+    # Features & target
     X = df[FEATURE_COLUMNS]
     y = df["disease"]
 
+    # Encode labels
     label_encoder = LabelEncoder()
     y_encoded = label_encoder.fit_transform(y)
 
+    # Train/test split
     X_train, X_test, y_train, y_test = train_test_split(
         X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded
     )
 
+    # Train model
     model = RandomForestClassifier(n_estimators=200, random_state=42)
     model.fit(X_train, y_train)
 
+    # Evaluate
     preds = model.predict(X_test)
     acc = accuracy_score(y_test, preds)
 
+    # Save model
     joblib.dump(model, os.path.join(args.out_dir, "disease_rf_model.joblib"))
     joblib.dump(label_encoder, os.path.join(args.out_dir, "label_encoder.joblib"))
 
