@@ -1,53 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:background="@drawable/bg_health_theme">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Symptoms"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="16dp" />
-
-    <MultiAutoCompleteTextView
-        android:id="@+id/et_symptoms"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Symptoms (comma separated)"
-        android:background="@drawable/txt_back"
-        android:padding="12dp"
-        android:layout_marginBottom="12dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <AutoCompleteTextView
-        android:id="@+id/at_severity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Severity (Low/Medium/High)"
-        android:background="@drawable/txt_back"
-        android:padding="12dp"
-        android:layout_marginBottom="12dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="✚ Predict Disease ✚"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="#2E7D32"
+            android:layout_marginBottom="8dp" />
 
-    <EditText
-        android:id="@+id/et_duration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Duration (days)"
-        android:inputType="number"
-        android:background="@drawable/txt_back"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter symptoms, number of days/duration from the symptoms occured/visible and temperature of body"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btn_predict"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Predict Disease"
-        android:background="@drawable/rounded_button_teal"
-        android:textColor="@android:color/white" />
-</LinearLayout>
+        <MultiAutoCompleteTextView
+            android:id="@+id/et_symptoms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Symptoms (comma separated)"
+            android:background="@drawable/txt_back"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/et_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Duration (days)"
+            android:inputType="number"
+            android:background="@drawable/txt_back"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/et_temperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Temperature (°F)"
+            android:inputType="numberDecimal"
+            android:background="@drawable/txt_back"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp" />
+
+
+        <TextView
+            android:id="@+id/tv_calculated_severity"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            android:importantForAccessibility="no" />
+
+        <Button
+            android:id="@+id/btn_predict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Predict Disease"
+            android:background="@drawable/rounded_button_teal"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</ScrollView>
