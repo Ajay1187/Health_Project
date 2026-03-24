@@ -6,6 +6,15 @@
     android:padding="16dp"
     android:background="@drawable/bg_health_theme">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prediction History"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="12dp" />
+
     <EditText
         android:id="@+id/et_history_search"
         android:layout_width="match_parent"
@@ -20,6 +29,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sort newest first"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tv_history_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
     <ListView
