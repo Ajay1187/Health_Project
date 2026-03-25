@@ -31,11 +31,6 @@ public class HelathCard extends AppCompatActivity {
     private TextView txtAddress;
     private TextView txtPhone;
     private TextView txtDob;
-    private TextView txtAdhar;
-    private TextView txtAge;
-    private TextView txtBloodGroup;
-    private TextView txtCurrentDisease;
-    private TextView txtOldDisease;
     private ImageView imgQr;
 
     private TestAdapter adapter;
@@ -51,11 +46,6 @@ public class HelathCard extends AppCompatActivity {
         txtAddress = findViewById(R.id.txt_adddressss);
         txtPhone = findViewById(R.id.txt_pphoneee);
         txtDob = findViewById(R.id.txt_pdatav);
-        txtAdhar = findViewById(R.id.txt_adhar);
-        txtAge = findViewById(R.id.txt_age);
-        txtBloodGroup = findViewById(R.id.txt_blood_group);
-        txtCurrentDisease = findViewById(R.id.txt_current_disease);
-        txtOldDisease = findViewById(R.id.txt_old_disease);
         imgQr = findViewById(R.id.image_qr_dynamic);
         Button btnBack = findViewById(R.id.btn_printcard);
 
@@ -97,16 +87,11 @@ public class HelathCard extends AppCompatActivity {
         String oldDiseases = loadDiseaseNames(adapter.selectDisesehistory(medicalid), 2);
         String age = calculateAge(dob);
 
-        txtName.setText("Full Name: " + name);
+        txtName.setText("Name: " + name);
         txtAddress.setText("Address: " + address);
-        txtPhone.setText("Mobile No: " + mobile);
+        txtPhone.setText("M.No: " + mobile);
         txtMid.setText("M.ID: " + safe(medicalid));
-        txtDob.setText("D.O.B: " + dob);
-        txtAdhar.setText("Adhar No: " + adhar);
-        txtAge.setText("Age: " + age);
-        txtBloodGroup.setText("Blood Group: " + DEFAULT_BLOOD_GROUP);
-        txtCurrentDisease.setText("Current Disease: " + currentDiseases);
-        txtOldDisease.setText("Old Disease History: " + oldDiseases);
+        txtDob.setText("DOB: " + dob);
 
         String qrPayload = buildQrPayload(name, age, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
         Bitmap qrBitmap = generateQrCode(qrPayload, 420, 420);
@@ -130,13 +115,13 @@ public class HelathCard extends AppCompatActivity {
     private String buildQrPayload(String name, String age, String dob, String address, String mobile,
                                   String mid, String adhar, String currentDiseases, String oldDiseases) {
         return "Name: " + name + "\n"
-                + "Age: " + age + "\n"
-                + "DOB: " + dob + "\n"
-                + "Blood Group: " + DEFAULT_BLOOD_GROUP + "\n"
                 + "Address: " + address + "\n"
                 + "Mobile: " + mobile + "\n"
                 + "M.ID: " + mid + "\n"
+                + "DOB: " + dob + "\n"
                 + "Adhar ID: " + adhar + "\n"
+                + "Age: " + age + "\n"
+                + "Blood Group: " + DEFAULT_BLOOD_GROUP + "\n"
                 + "Current Disease: " + currentDiseases + "\n"
                 + "Old Disease History: " + oldDiseases;
     }
