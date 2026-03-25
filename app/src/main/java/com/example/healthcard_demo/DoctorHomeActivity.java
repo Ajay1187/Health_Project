@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class DoctorHomeActivity extends AppCompatActivity {
-Button b2, logout, aboutus;
+Button b2, logout, aboutus, medicalHistory, addHealthIssue;
 TextView tv;
 TestAdapter adapter;
 String drid;
@@ -24,6 +24,8 @@ String drid;
         tv = findViewById(R.id.txt_drid);
         logout = findViewById(R.id.btn_drlogout);
         aboutus = findViewById(R.id.btn_draboutus);
+        medicalHistory = findViewById(R.id.btn_drmedicalhistory);
+        addHealthIssue = findViewById(R.id.btn_draddhealthissue);
 
         try {
             adapter = new TestAdapter(this);
@@ -75,6 +77,15 @@ String drid;
                 i.putExtra("MedicalID", drid);
                 startActivity(i);
             }
+        });
+
+        medicalHistory.setOnClickListener(view ->
+                startActivity(new Intent(DoctorHomeActivity.this, DoctorMedicalHistoryOptionsActivity.class)));
+
+        addHealthIssue.setOnClickListener(view -> {
+            Intent intent = new Intent(DoctorHomeActivity.this, DoctorAddHealthIssueActivity.class);
+            intent.putExtra("DoctorID", drid);
+            startActivity(intent);
         });
     }
 

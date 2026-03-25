@@ -43,6 +43,12 @@
             android:name=".ViewUserdetails"
             android:exported="false" />
         <activity
+            android:name=".DoctorMedicalHistoryOptionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorAddHealthIssueActivity"
+            android:exported="false" />
+        <activity
             android:name=".PatientMedicalbyadharcard"
             android:exported="false" />
         <activity
