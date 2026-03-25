@@ -11,10 +11,10 @@ import android.widget.TextView;
 
 public class OldMedicalHistory extends AppCompatActivity {
 
-    private static final String HEADER_BG = "#2C5364";
-    private static final String ROW_BG_ONE = "#EAF4F8";
-    private static final String ROW_BG_TWO = "#DDECF3";
-    private static final String HEADER_TEXT = "#E3F2FD";
+    private static final String HEADER_BG = "#DDEFFD";
+    private static final String ROW_BG_ONE = "#FFFFFF";
+    private static final String ROW_BG_TWO = "#F5FAFF";
+    private static final String HEADER_TEXT = "#1E3A5F";
     private static final String BODY_TEXT = "#0F2027";
 
     private TableLayout table;
