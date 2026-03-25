@@ -41,6 +41,27 @@ public class DiseaseDataRepository {
         return cachedAllSymptoms;
     }
 
+    public List<String> getAllDiseases() {
+        ensureLoaded();
+        List<String> diseases = new ArrayList<>();
+        for (DiseaseProfile profile : cachedProfiles.values()) {
+            diseases.add(profile.diseaseName);
+        }
+        Collections.sort(diseases);
+        return diseases;
+    }
+
+    public List<String> getSymptomsForDisease(String diseaseName) {
+        ensureLoaded();
+        DiseaseProfile profile = cachedProfiles.get(normalizeDiseaseKey(diseaseName));
+        if (profile == null) {
+            return new ArrayList<>();
+        }
+        List<String> symptoms = new ArrayList<>(profile.symptoms);
+        Collections.sort(symptoms);
+        return symptoms;
+    }
+
 
     public DiseaseResponse predictFromSymptoms(List<String> symptoms, int durationDays, float temperatureF) {
         ensureLoaded();
