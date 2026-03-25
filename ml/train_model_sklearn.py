@@ -43,7 +43,7 @@ FEATURE_COLUMNS = [
     "stomach_bleeding", "distention_of_abdomen", "history_of_alcohol_consumption", "blood_in_sputum",
     "prominent_veins_on_calf", "palpitations", "painful_walking", "pus_filled_pimples", "blackheads",
     "scurring", "skin_peeling", "silver_like_dusting", "small_dents_in_nails", "inflammatory_nails",
-    "blister", "red_sore_around_nose", "yellow_crust_ooze",
+    "blister", "red_sore_around_nose", "yellow_crust_ooze"
 ]
 FEATURE_SET = set(FEATURE_COLUMNS)
 

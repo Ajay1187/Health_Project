@@ -1,4 +1,0 @@
-training_samples=3936
-test_samples=984
-vocabulary_size=131
-test_accuracy=1.0000
