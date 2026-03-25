@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -40,12 +41,14 @@ public class NewMedicalHistory extends AppCompatActivity {
         table.removeAllViews();
 
         TableRow header = new TableRow(this);
+        header.setBackgroundColor(getResources().getColor(R.color.purple_500));
         addHeader("Disease", header);
         addHeader("Appointment Date", header);
         addHeader("Symptoms", header);
         table.addView(header);
 
         Cursor cursor = adapter.selectHelathissue(usermedicalid);
+        int rowIndex = 0;
         while (cursor.moveToNext()) {
             String mid = cursor.getString(0);
             String appointmentDate = cursor.getString(1);
@@ -53,12 +56,18 @@ public class NewMedicalHistory extends AppCompatActivity {
             String symptoms = cursor.getString(3);
 
             TableRow row = new TableRow(this);
+            int rowColor = rowIndex % 2 == 0
+                    ? getResources().getColor(R.color.purple_100)
+                    : Color.parseColor("#E1DAF3");
+            row.setBackgroundColor(rowColor);
+
             addCell(disease, row);
             addCell(appointmentDate, row);
             addCell(symptoms, row);
             table.addView(row);
 
             row.setOnClickListener(v -> showRecoverDialog(mid, appointmentDate, disease, symptoms));
+            rowIndex++;
         }
         cursor.close();
     }
@@ -88,14 +97,17 @@ public class NewMedicalHistory extends AppCompatActivity {
         TextView tv = new TextView(this);
         tv.setText(text);
         tv.setTextSize(16);
-        tv.setPadding(10, 10, 10, 10);
+        tv.setTypeface(tv.getTypeface(), android.graphics.Typeface.BOLD);
+        tv.setTextColor(Color.WHITE);
+        tv.setPadding(12, 12, 12, 12);
         row.addView(tv);
     }
 
     private void addCell(String text, TableRow row) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setPadding(10, 10, 10, 10);
+        tv.setTextColor(Color.BLACK);
+        tv.setPadding(12, 12, 12, 12);
         row.addView(tv);
     }
 }

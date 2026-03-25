@@ -3,6 +3,7 @@ package com.example.healthcard_demo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,18 +34,26 @@ public class OldMedicalHistory extends AppCompatActivity {
         table.removeAllViews();
 
         TableRow header = new TableRow(this);
+        header.setBackgroundColor(getResources().getColor(R.color.purple_500));
         addHeader("Disease", header);
         addHeader("Recovery Date", header);
         addHeader("Symptoms", header);
         table.addView(header);
 
         Cursor cursor = adapter.selectDisesehistory(usermedicalid);
+        int rowIndex = 0;
         while (cursor.moveToNext()) {
             TableRow row = new TableRow(this);
+            int rowColor = rowIndex % 2 == 0
+                    ? getResources().getColor(R.color.purple_100)
+                    : Color.parseColor("#E1DAF3");
+            row.setBackgroundColor(rowColor);
+
             addCell(cursor.getString(2), row); // disease
             addCell(cursor.getString(1), row); // recovery date
             addCell(cursor.getString(3), row); // symptoms
             table.addView(row);
+            rowIndex++;
         }
         cursor.close();
     }
@@ -53,14 +62,17 @@ public class OldMedicalHistory extends AppCompatActivity {
         TextView tv = new TextView(this);
         tv.setText(text);
         tv.setTextSize(16);
-        tv.setPadding(10, 10, 10, 10);
+        tv.setTypeface(tv.getTypeface(), android.graphics.Typeface.BOLD);
+        tv.setTextColor(Color.WHITE);
+        tv.setPadding(12, 12, 12, 12);
         row.addView(tv);
     }
 
     private void addCell(String text, TableRow row) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setPadding(10, 10, 10, 10);
+        tv.setTextColor(Color.BLACK);
+        tv.setPadding(12, 12, 12, 12);
         row.addView(tv);
     }
 }

@@ -10,13 +10,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AddHealthissue extends AppCompatActivity {
 
@@ -25,13 +28,14 @@ public class AddHealthissue extends AppCompatActivity {
     private Button b1;
     private TestAdapter adapter;
     private Spinner hdisease;
-    private Spinner msymtons;
+    private TextView symptomField;
 
     private String usermedicalid;
 
     private DiseaseDataRepository diseaseDataRepository;
     private List<String> diseases = new ArrayList<>();
-    private List<String> currentSymptoms = new ArrayList<>();
+    private List<String> availableSymptoms = new ArrayList<>();
+    private final Set<String> selectedSymptoms = new LinkedHashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class AddHealthissue extends AppCompatActivity {
 
         mid = findViewById(R.id.txt_medicalid);
         hdisease = findViewById(R.id.txt_diseses);
-        msymtons = findViewById(R.id.txt_symtons);
+        symptomField = findViewById(R.id.txt_symtons);
         ddate = findViewById(R.id.txt_date);
         b1 = findViewById(R.id.btn_adddises);
 
@@ -60,6 +64,7 @@ public class AddHealthissue extends AppCompatActivity {
             diseaseDataRepository = new DiseaseDataRepository(this);
 
             setupDiseaseSpinner();
+            setupSymptomSelector();
             setupAddButton();
         } catch (Exception exception) {
             Toast.makeText(this, "Failed to load disease data.", Toast.LENGTH_SHORT).show();
@@ -83,36 +88,58 @@ public class AddHealthissue extends AppCompatActivity {
         hdisease.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+                selectedSymptoms.clear();
                 if (position == 0) {
-                    bindSymptoms(new ArrayList<>());
+                    availableSymptoms = new ArrayList<>();
+                    symptomField.setText("Select Symptoms");
                     return;
                 }
                 String selectedDisease = diseaseChoices.get(position);
-                bindSymptoms(diseaseDataRepository.getSymptomsForDisease(selectedDisease));
+                availableSymptoms = diseaseDataRepository.getSymptomsForDisease(selectedDisease);
+                symptomField.setText("Select Symptoms");
             }
 
             @Override
             public void onNothingSelected(android.widget.AdapterView<?> parent) {
-                bindSymptoms(new ArrayList<>());
+                selectedSymptoms.clear();
+                availableSymptoms = new ArrayList<>();
+                symptomField.setText("Select Symptoms");
             }
         });
-
-        bindSymptoms(new ArrayList<>());
     }
 
-    private void bindSymptoms(List<String> symptoms) {
-        currentSymptoms = new ArrayList<>(symptoms);
-        List<String> symptomChoices = new ArrayList<>();
-        symptomChoices.add("Select Symptoms");
-        symptomChoices.addAll(currentSymptoms);
+    private void setupSymptomSelector() {
+        symptomField.setOnClickListener(v -> {
+            if (availableSymptoms.isEmpty()) {
+                Toast.makeText(this, "Please select disease first.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        ArrayAdapter<String> symptomAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                symptomChoices
-        );
-        symptomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        msymtons.setAdapter(symptomAdapter);
+            boolean[] checkedItems = new boolean[availableSymptoms.size()];
+            for (int i = 0; i < availableSymptoms.size(); i++) {
+                checkedItems[i] = selectedSymptoms.contains(availableSymptoms.get(i));
+            }
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Select Symptoms")
+                    .setMultiChoiceItems(availableSymptoms.toArray(new String[0]), checkedItems, (dialog, which, isChecked) -> {
+                        String symptom = availableSymptoms.get(which);
+                        if (isChecked) {
+                            selectedSymptoms.add(symptom);
+                        } else {
+                            selectedSymptoms.remove(symptom);
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .setPositiveButton("Done", (dialog, which) -> {
+                        if (selectedSymptoms.isEmpty()) {
+                            symptomField.setText("Select Symptoms");
+                        } else {
+                            symptomField.setText(TextUtils.join(", ", selectedSymptoms));
+                        }
+                    })
+                    .show();
+        });
     }
 
     private void setupAddButton() {
@@ -120,7 +147,7 @@ public class AddHealthissue extends AppCompatActivity {
             String medicalid = mid.getText().toString().trim();
             String disdate = ddate.getText().toString().trim();
             String dname = hdisease.getSelectedItem() == null ? "" : hdisease.getSelectedItem().toString().trim();
-            String sname = msymtons.getSelectedItem() == null ? "" : msymtons.getSelectedItem().toString().trim();
+            String sname = TextUtils.join(", ", selectedSymptoms);
 
             if (TextUtils.isEmpty(medicalid)) {
                 Toast.makeText(getApplicationContext(), "Please Enter Your Medical Id..", Toast.LENGTH_SHORT).show();
@@ -137,8 +164,8 @@ public class AddHealthissue extends AppCompatActivity {
                 return;
             }
 
-            if (TextUtils.isEmpty(sname) || "Select Symptoms".equalsIgnoreCase(sname)) {
-                Toast.makeText(getApplicationContext(), "Please select symptom.", Toast.LENGTH_SHORT).show();
+            if (selectedSymptoms.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Please select at least one symptom.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
