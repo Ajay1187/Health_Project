@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -94,7 +96,7 @@ public class HelathCard extends AppCompatActivity {
         txtDob.setText("DOB: " + dob);
 
         String qrPayload = buildQrPayload(name, age, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
-        Bitmap qrBitmap = generateQrCode(qrPayload, 420, 420);
+        Bitmap qrBitmap = generateQrCode(qrPayload, 900, 900);
         if (qrBitmap != null) {
             imgQr.setImageBitmap(qrBitmap);
         }
@@ -128,8 +130,13 @@ public class HelathCard extends AppCompatActivity {
 
     private Bitmap generateQrCode(String value, int width, int height) {
         try {
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(value, BarcodeFormat.QR_CODE, width, height);
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            java.util.Map<EncodeHintType, Object> hints = new java.util.HashMap<>();
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+            hints.put(EncodeHintType.MARGIN, 2);
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(value, BarcodeFormat.QR_CODE, width, height, hints);
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
