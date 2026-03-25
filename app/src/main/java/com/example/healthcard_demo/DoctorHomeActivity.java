@@ -78,22 +78,8 @@ String drid;
             }
         });
 
-        medicalHistory.setOnClickListener(view -> showMedicalHistoryOptions());
-    }
-
-    private void showMedicalHistoryOptions() {
-        final String[] options = {"By Adhar Card", "By Medical ID"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Medical History");
-        builder.setItems(options, (dialogInterface, index) -> {
-            if (index == 0) {
-                startActivity(new Intent(DoctorHomeActivity.this, PatientMedicalbyadharcard.class));
-            } else {
-                startActivity(new Intent(DoctorHomeActivity.this, PatientMedicalHistory.class));
-            }
-        });
-        builder.show();
+        medicalHistory.setOnClickListener(view ->
+                startActivity(new Intent(DoctorHomeActivity.this, DoctorMedicalHistoryOptionsActivity.class)));
     }
 
     @Override
