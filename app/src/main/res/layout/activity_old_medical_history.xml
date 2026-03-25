@@ -21,16 +21,23 @@
         android:textSize="22sp"
         android:textStyle="bold" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/blur_bg"
+        android:padding="8dp">
 
-        <TableLayout
-            android:id="@+id/table_old"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:stretchColumns="*" />
-    </ScrollView>
+            android:layout_height="match_parent">
+
+            <TableLayout
+                android:id="@+id/table_old"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:stretchColumns="*" />
+        </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

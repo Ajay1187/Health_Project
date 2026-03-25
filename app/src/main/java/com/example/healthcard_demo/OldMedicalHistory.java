@@ -34,7 +34,7 @@ public class OldMedicalHistory extends AppCompatActivity {
         table.removeAllViews();
 
         TableRow header = new TableRow(this);
-        header.setBackgroundColor(getResources().getColor(R.color.purple_500));
+        header.setBackgroundColor(Color.parseColor("#2D6F8E"));
         addHeader("Disease", header);
         addHeader("Recovery Date", header);
         addHeader("Symptoms", header);
@@ -45,8 +45,8 @@ public class OldMedicalHistory extends AppCompatActivity {
         while (cursor.moveToNext()) {
             TableRow row = new TableRow(this);
             int rowColor = rowIndex % 2 == 0
-                    ? getResources().getColor(R.color.purple_100)
-                    : Color.parseColor("#E1DAF3");
+                    ? Color.parseColor("#F4F9FC")
+                    : Color.parseColor("#EAF3F8");
             row.setBackgroundColor(rowColor);
 
             addCell(cursor.getString(2), row); // disease
@@ -71,7 +71,7 @@ public class OldMedicalHistory extends AppCompatActivity {
     private void addCell(String text, TableRow row) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setTextColor(Color.BLACK);
+        tv.setTextColor(Color.parseColor("#123247"));
         tv.setPadding(12, 12, 12, 12);
         row.addView(tv);
     }
