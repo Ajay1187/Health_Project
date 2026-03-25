@@ -46,9 +46,6 @@
             android:name=".PatientMedicalbyadharcard"
             android:exported="false" />
         <activity
-            android:name=".MedicalActivity"
-            android:exported="false" />
-        <activity
             android:name=".DoctorAboutus"
             android:exported="false" />
         <activity
