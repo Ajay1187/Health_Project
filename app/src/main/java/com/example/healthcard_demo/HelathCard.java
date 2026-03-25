@@ -98,10 +98,10 @@ public class HelathCard extends AppCompatActivity {
         String age = calculateAge(dob);
 
         txtName.setText("Name: " + name);
-        txtDob.setText("DOB: " + dob);
         txtAddress.setText("Address: " + address);
         txtPhone.setText("Mobile No: " + mobile);
         txtMid.setText("M ID: " + safe(medicalid));
+        txtDob.setText("DOB: " + dob);
 
         String qrPayload = buildQrPayload(name, age, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
         Bitmap qrBitmap = generateQrCode(qrPayload, 900, 900);
