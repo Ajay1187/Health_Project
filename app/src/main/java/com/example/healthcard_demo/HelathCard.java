@@ -1,9 +1,12 @@
 package com.example.healthcard_demo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.print.PrintHelper;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -23,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 
 public class HelathCard extends AppCompatActivity {
 
@@ -34,6 +40,7 @@ public class HelathCard extends AppCompatActivity {
     private TextView txtPhone;
     private TextView txtDob;
     private ImageView imgQr;
+    private CardView smartCardContainer;
 
     private TestAdapter adapter;
     private String medicalid;
@@ -49,9 +56,10 @@ public class HelathCard extends AppCompatActivity {
         txtPhone = findViewById(R.id.txt_pphoneee);
         txtDob = findViewById(R.id.txt_pdatav);
         imgQr = findViewById(R.id.image_qr_dynamic);
-        Button btnBack = findViewById(R.id.btn_printcard);
+        smartCardContainer = findViewById(R.id.smart_card_container);
+        Button btnPrint = findViewById(R.id.btn_printcard);
 
-        btnBack.setOnClickListener(v -> finish());
+        btnPrint.setOnClickListener(v -> printSmartCard());
 
         try {
             adapter = new TestAdapter(this);
@@ -91,8 +99,8 @@ public class HelathCard extends AppCompatActivity {
 
         txtName.setText("Name: " + name);
         txtAddress.setText("Address: " + address);
-        txtPhone.setText("M.No: " + mobile);
-        txtMid.setText("M.ID: " + safe(medicalid));
+        txtPhone.setText("Mobile No: " + mobile);
+        txtMid.setText("M ID: " + safe(medicalid));
         txtDob.setText("DOB: " + dob);
 
         String qrPayload = buildQrPayload(name, age, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
@@ -100,6 +108,21 @@ public class HelathCard extends AppCompatActivity {
         if (qrBitmap != null) {
             imgQr.setImageBitmap(qrBitmap);
         }
+    }
+
+    private void printSmartCard() {
+        if (smartCardContainer == null || smartCardContainer.getWidth() == 0 || smartCardContainer.getHeight() == 0) {
+            Toast.makeText(this, "Card not ready to print.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(smartCardContainer.getWidth(), smartCardContainer.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        smartCardContainer.draw(canvas);
+
+        PrintHelper printHelper = new PrintHelper(this);
+        printHelper.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+        printHelper.printBitmap("Smart Health Card", bitmap);
     }
 
     private String loadDiseaseNames(Cursor cursor, int diseaseColumnIndex) {
@@ -130,7 +153,7 @@ public class HelathCard extends AppCompatActivity {
 
     private Bitmap generateQrCode(String value, int width, int height) {
         try {
-            java.util.Map<EncodeHintType, Object> hints = new java.util.HashMap<>();
+            Map<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
             hints.put(EncodeHintType.MARGIN, 2);
             hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");

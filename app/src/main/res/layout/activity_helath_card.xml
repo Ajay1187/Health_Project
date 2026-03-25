@@ -13,114 +13,126 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="330dp"
+            android:id="@+id/smart_card_container"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="#F7FAFF"
+            app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="20dp"
             app:cardElevation="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_smart_card_green"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="12dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SMART HEALTH CARD"
-                    android:textColor="#1D3A5F"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:gravity="center"
+                    android:text="SMART HEALTH CARD"
+                    android:textColor="#ECFFF4"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_marginTop="8dp">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:id="@+id/right_column"
+                        android:layout_width="96dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txt_pname"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="#1C2E44"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:textColor="#2A4059"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/txt_pphoneee"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:textColor="#2A4059"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/txt_patientid"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:textColor="#2A4059"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/txt_pdatav"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:textColor="#2A4059"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_alignParentEnd="true"
                         android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/image_dummy"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_gravity="center_horizontal"
                             android:background="@drawable/rounded_image_bg"
-                            android:padding="6dp"
+                            android:padding="4dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/lp" />
 
                         <ImageView
                             android:id="@+id/image_qr_dynamic"
-                            android:layout_width="140dp"
-                            android:layout_height="140dp"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="8dp"
                             android:background="#FFFFFF"
-                            android:padding="5dp" />
+                            android:padding="4dp" />
                     </LinearLayout>
-                </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/txt_pname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/right_column"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="#ECFFF4"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_pname"
+                        android:layout_toStartOf="@id/right_column"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="#ECFFF4"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/txt_pphoneee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_address"
+                        android:layout_toStartOf="@id/right_column"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="#ECFFF4"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/txt_patientid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_pphoneee"
+                        android:layout_toStartOf="@id/right_column"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="#ECFFF4"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/txt_pdatav"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/image_qr_dynamic"
+                        android:layout_toStartOf="@id/right_column"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="#ECFFF4"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/btn_printcard"
-            android:layout_width="330dp"
+            android:layout_width="320dp"
             android:layout_height="48dp"
             android:background="@drawable/glass_button"
-            android:text="BACK"
+            android:text="PRINT"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
