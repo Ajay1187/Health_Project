@@ -17,11 +17,11 @@ import java.util.Locale;
 
 public class NewMedicalHistory extends AppCompatActivity {
 
-    private static final String HEADER_BG = "#DDEFFD";
-    private static final String ROW_BG_ONE = "#FFFFFF";
-    private static final String ROW_BG_TWO = "#F5FAFF";
-    private static final String HEADER_TEXT = "#1E3A5F";
-    private static final String BODY_TEXT = "#0F2027";
+    private static final String HEADER_BG = "#8E6BE8";
+    private static final String ROW_BG_ONE = "#3351636F";
+    private static final String ROW_BG_TWO = "#2B47606D";
+    private static final String HEADER_TEXT = "#F5F8FF";
+    private static final String BODY_TEXT = "#E3F2FD";
 
     private TableLayout table;
     private TestAdapter adapter;
