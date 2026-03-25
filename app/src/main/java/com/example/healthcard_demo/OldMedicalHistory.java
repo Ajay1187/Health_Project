@@ -11,6 +11,12 @@ import android.widget.TextView;
 
 public class OldMedicalHistory extends AppCompatActivity {
 
+    private static final String HEADER_BG = "#2C5364";
+    private static final String ROW_BG_ONE = "#EAF4F8";
+    private static final String ROW_BG_TWO = "#DDECF3";
+    private static final String HEADER_TEXT = "#E3F2FD";
+    private static final String BODY_TEXT = "#0F2027";
+
     private TableLayout table;
     private TestAdapter adapter;
     private String usermedicalid;
@@ -34,45 +40,48 @@ public class OldMedicalHistory extends AppCompatActivity {
         table.removeAllViews();
 
         TableRow header = new TableRow(this);
-        header.setBackgroundColor(Color.parseColor("#2D6F8E"));
-        addHeader("Disease", header);
-        addHeader("Recovery Date", header);
-        addHeader("Symptoms", header);
+        header.setBackgroundColor(Color.parseColor(HEADER_BG));
+        addHeaderCell(header, "Disease", 1f);
+        addHeaderCell(header, "Recovery Date", 1.2f);
+        addHeaderCell(header, "Symptoms", 1.8f);
         table.addView(header);
 
         Cursor cursor = adapter.selectDisesehistory(usermedicalid);
         int rowIndex = 0;
         while (cursor.moveToNext()) {
             TableRow row = new TableRow(this);
-            int rowColor = rowIndex % 2 == 0
-                    ? Color.parseColor("#F4F9FC")
-                    : Color.parseColor("#EAF3F8");
-            row.setBackgroundColor(rowColor);
+            row.setBackgroundColor(Color.parseColor(rowIndex % 2 == 0 ? ROW_BG_ONE : ROW_BG_TWO));
 
-            addCell(cursor.getString(2), row); // disease
-            addCell(cursor.getString(1), row); // recovery date
-            addCell(cursor.getString(3), row); // symptoms
+            addBodyCell(row, cursor.getString(2), 1f);
+            addBodyCell(row, cursor.getString(1), 1.2f);
+            addBodyCell(row, cursor.getString(3), 1.8f);
             table.addView(row);
             rowIndex++;
         }
         cursor.close();
     }
 
-    private void addHeader(String text, TableRow row) {
-        TextView tv = new TextView(this);
-        tv.setText(text);
-        tv.setTextSize(16);
+    private void addHeaderCell(TableRow row, String text, float weight) {
+        TextView tv = buildCell(text, weight);
+        tv.setTextColor(Color.parseColor(HEADER_TEXT));
         tv.setTypeface(tv.getTypeface(), android.graphics.Typeface.BOLD);
-        tv.setTextColor(Color.WHITE);
-        tv.setPadding(12, 12, 12, 12);
         row.addView(tv);
     }
 
-    private void addCell(String text, TableRow row) {
+    private void addBodyCell(TableRow row, String text, float weight) {
+        TextView tv = buildCell(text, weight);
+        tv.setTextColor(Color.parseColor(BODY_TEXT));
+        row.addView(tv);
+    }
+
+    private TextView buildCell(String text, float weight) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setTextColor(Color.parseColor("#123247"));
+        tv.setTextSize(16);
         tv.setPadding(12, 12, 12, 12);
-        row.addView(tv);
+        tv.setSingleLine(false);
+        tv.setMaxLines(4);
+        tv.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, weight));
+        return tv;
     }
 }

@@ -17,6 +17,12 @@ import java.util.Locale;
 
 public class NewMedicalHistory extends AppCompatActivity {
 
+    private static final String HEADER_BG = "#2C5364";
+    private static final String ROW_BG_ONE = "#EAF4F8";
+    private static final String ROW_BG_TWO = "#DDECF3";
+    private static final String HEADER_TEXT = "#E3F2FD";
+    private static final String BODY_TEXT = "#0F2027";
+
     private TableLayout table;
     private TestAdapter adapter;
     private String usermedicalid;
@@ -41,10 +47,10 @@ public class NewMedicalHistory extends AppCompatActivity {
         table.removeAllViews();
 
         TableRow header = new TableRow(this);
-        header.setBackgroundColor(Color.parseColor("#2D6F8E"));
-        addHeader("Disease", header);
-        addHeader("Appointment Date", header);
-        addHeader("Symptoms", header);
+        header.setBackgroundColor(Color.parseColor(HEADER_BG));
+        addHeaderCell(header, "Disease", 1f);
+        addHeaderCell(header, "Appointment Date", 1.2f);
+        addHeaderCell(header, "Symptoms", 1.8f);
         table.addView(header);
 
         Cursor cursor = adapter.selectHelathissue(usermedicalid);
@@ -56,14 +62,10 @@ public class NewMedicalHistory extends AppCompatActivity {
             String symptoms = cursor.getString(3);
 
             TableRow row = new TableRow(this);
-            int rowColor = rowIndex % 2 == 0
-                    ? Color.parseColor("#F4F9FC")
-                    : Color.parseColor("#EAF3F8");
-            row.setBackgroundColor(rowColor);
-
-            addCell(disease, row);
-            addCell(appointmentDate, row);
-            addCell(symptoms, row);
+            row.setBackgroundColor(Color.parseColor(rowIndex % 2 == 0 ? ROW_BG_ONE : ROW_BG_TWO));
+            addBodyCell(row, disease, 1f);
+            addBodyCell(row, appointmentDate, 1.2f);
+            addBodyCell(row, symptoms, 1.8f);
             table.addView(row);
 
             row.setOnClickListener(v -> showRecoverDialog(mid, appointmentDate, disease, symptoms));
@@ -93,21 +95,27 @@ public class NewMedicalHistory extends AppCompatActivity {
         }
     }
 
-    private void addHeader(String text, TableRow row) {
-        TextView tv = new TextView(this);
-        tv.setText(text);
-        tv.setTextSize(16);
+    private void addHeaderCell(TableRow row, String text, float weight) {
+        TextView tv = buildCell(text, weight);
+        tv.setTextColor(Color.parseColor(HEADER_TEXT));
         tv.setTypeface(tv.getTypeface(), android.graphics.Typeface.BOLD);
-        tv.setTextColor(Color.WHITE);
-        tv.setPadding(12, 12, 12, 12);
         row.addView(tv);
     }
 
-    private void addCell(String text, TableRow row) {
+    private void addBodyCell(TableRow row, String text, float weight) {
+        TextView tv = buildCell(text, weight);
+        tv.setTextColor(Color.parseColor(BODY_TEXT));
+        row.addView(tv);
+    }
+
+    private TextView buildCell(String text, float weight) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setTextColor(Color.parseColor("#123247"));
+        tv.setTextSize(16);
         tv.setPadding(12, 12, 12, 12);
-        row.addView(tv);
+        tv.setSingleLine(false);
+        tv.setMaxLines(4);
+        tv.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, weight));
+        return tv;
     }
 }
