@@ -33,10 +33,18 @@
                     android:padding="10dp"
                     android:src="@drawable/lp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="MID :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
                     app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -56,10 +64,18 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Name :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -79,10 +95,18 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Address :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -102,10 +126,18 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Mobile Number :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -125,10 +157,18 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Aadhaar Number :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -148,10 +188,18 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Weight :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
@@ -171,10 +219,18 @@
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Blood Group :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
