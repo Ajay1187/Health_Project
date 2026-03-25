@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 public class OldMedicalHistory extends AppCompatActivity {
 
-    TableLayout table;
-    TestAdapter adapter;
-    String usermedicalid;
+    private TableLayout table;
+    private TestAdapter adapter;
+    private String usermedicalid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,37 +26,26 @@ public class OldMedicalHistory extends AppCompatActivity {
         adapter.open();
 
         usermedicalid = getIntent().getStringExtra("MedicalID");
-
         loadOldDiseases();
     }
 
     private void loadOldDiseases() {
+        table.removeAllViews();
 
         TableRow header = new TableRow(this);
-
         addHeader("Disease", header);
         addHeader("Recovery Date", header);
         addHeader("Symptoms", header);
-
         table.addView(header);
 
         Cursor cursor = adapter.selectDisesehistory(usermedicalid);
-
         while (cursor.moveToNext()) {
-
-            // show only recovered
-            if (cursor.getString(1).equalsIgnoreCase("Yes")) {
-
-                TableRow row = new TableRow(this);
-
-                addCell(cursor.getString(2), row); // disease
-                addCell(cursor.getString(3), row); // recovery date
-                addCell(cursor.getString(4), row); // symptoms
-
-                table.addView(row);
-            }
+            TableRow row = new TableRow(this);
+            addCell(cursor.getString(2), row); // disease
+            addCell(cursor.getString(1), row); // recovery date
+            addCell(cursor.getString(3), row); // symptoms
+            table.addView(row);
         }
-
         cursor.close();
     }
 
@@ -64,13 +53,14 @@ public class OldMedicalHistory extends AppCompatActivity {
         TextView tv = new TextView(this);
         tv.setText(text);
         tv.setTextSize(16);
+        tv.setPadding(10, 10, 10, 10);
         row.addView(tv);
     }
 
     private void addCell(String text, TableRow row) {
         TextView tv = new TextView(this);
         tv.setText(text);
-        tv.setPadding(10,10,10,10);
+        tv.setPadding(10, 10, 10, 10);
         row.addView(tv);
     }
 }
