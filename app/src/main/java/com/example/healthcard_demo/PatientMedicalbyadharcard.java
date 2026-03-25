@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -68,144 +65,7 @@ public class PatientMedicalbyadharcard extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     String id=sp1.getItemAtPosition(position).toString();
-                  /*  Intent i = new Intent(PatientMedicalbyadharcard.this, ViewUserdetails.class);
-                    i.putExtra("Key",id);
-                    startActivity(i);*/
-
-                    AlertDialog.Builder alertbuilder=new AlertDialog.Builder(context);
-                    alertbuilder.setTitle("         User Information");
-
-                    TableLayout layout=new TableLayout(context);
-                    layout.setGravity(Gravity.CENTER);
-
-                    Cursor c=adapter.getalluserdetails(id);
-                    while (c.moveToNext()) {
-
-                        final TableRow rrr=new TableRow(context);
-                        TextView tvrr=new TextView(context);
-                        tvrr.setText("     Medical Id");
-                        tvrr.setTextSize(20);
-                        tvrr.setTextColor(Color.BLACK);
-                        //r.setBackgroundResource(R.drawable.row);
-                        rrr.addView(tvrr);
-
-
-                        //  final TableRow r=new TableRow(context);
-
-                        final TextView tv1=new TextView(context);
-                        tv1.setText("       " +c.getString(0));
-                        //final String num=("     " +c.getString(0));
-                        tv1.setTextSize(20);
-                        tv1.setPadding(0,20,0,0);
-                        tv1.setTextColor(Color.BLACK);
-                        rrr.addView(tv1);
-                        layout.addView(rrr);
-
-
-
-                        final TableRow rrrt=new TableRow(context);
-                        TextView tvrrt=new TextView(context);
-                        tvrrt.setText("     Name");
-                        tvrrt.setTextSize(20);
-                        tvrrt.setTextColor(Color.BLACK);
-                        //r.setBackgroundResource(R.drawable.row);
-                        rrrt.addView(tvrrt);
-
-
-                        //final TableRow rt=new TableRow(context);
-
-                        final TextView tv1t=new TextView(context);
-                        tv1t.setText("       " +c.getString(1));
-                        //final String num=("     " +c.getString(0));
-                        tv1t.setTextSize(20);
-                        tv1t.setPadding(0,20,0,0);
-                        tv1t.setTextColor(Color.BLACK);
-                        rrrt.addView(tv1t);
-                        layout.addView(rrrt);
-
-
-
-                        final TableRow rrrta=new TableRow(context);
-                        TextView tvrrta=new TextView(context);
-                        tvrrta.setText("     Address");
-                        tvrrta.setTextSize(20);
-                        tvrrta.setTextColor(Color.BLACK);
-                        //r.setBackgroundResource(R.drawable.row);
-                        rrrta.addView(tvrrta);
-
-
-                        // final TableRow rta=new TableRow(context);
-
-                        final TextView tv1ta=new TextView(context);
-                        tv1ta.setText("       " +c.getString(2));
-                        //final String num=("     " +c.getString(0));
-                        tv1ta.setTextSize(20);
-                        tv1ta.setPadding(0,20,0,0);
-                        tv1ta.setTextColor(Color.BLACK);
-                        rrrta.addView(tv1ta);
-                        layout.addView(rrrta);
-
-
-                        final TableRow rrrtaa=new TableRow(context);
-                        TextView tvrrtaa=new TextView(context);
-                        tvrrtaa.setText("     Mobile");
-                        tvrrtaa.setTextSize(20);
-                        tvrrtaa.setTextColor(Color.BLACK);
-                        //r.setBackgroundResource(R.drawable.row);
-                        rrrtaa.addView(tvrrtaa);
-
-
-                        // final TableRow rta=new TableRow(context);
-
-                        final TextView tv1taa=new TextView(context);
-                        tv1taa.setText("       " +c.getString(3));
-                        //final String num=("     " +c.getString(0));
-                        tv1taa.setTextSize(20);
-                        tv1taa.setPadding(0,20,0,0);
-                        tv1taa.setTextColor(Color.BLACK);
-                        rrrtaa.addView(tv1taa);
-                        layout.addView(rrrtaa);
-
-
-
-                        final TableRow rrrtat=new TableRow(context);
-                        TextView tvrrtat=new TextView(context);
-                        tvrrtat.setText("     B.Date");
-                        tvrrtat.setTextSize(20);
-                        tvrrtat.setTextColor(Color.BLACK);
-                        //r.setBackgroundResource(R.drawable.row);
-                        rrrtat.addView(tvrrtat);
-
-
-                        // final TableRow rta=new TableRow(context);
-
-                        final TextView tv1tam=new TextView(context);
-                        tv1tam.setText("       " +c.getString(5));
-                        //final String num=("     " +c.getString(0));
-                        tv1tam.setTextSize(20);
-                        tv1tam.setPadding(0,20,0,0);
-                        tv1tam.setTextColor(Color.BLACK);
-                        rrrtat.addView(tv1tam);
-                        layout.addView(rrrtat);
-
-                        alertbuilder.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-
-
-
-                        alertbuilder.setView(layout);
-
-                    }
-
-
-                    AlertDialog alertDialog= alertbuilder.create();
-                    alertDialog.show();
+                    showUserInformationDialog(id);
                 }
             });
 
@@ -233,5 +93,77 @@ public class PatientMedicalbyadharcard extends AppCompatActivity {
 
 
 
+    }
+
+    private void showUserInformationDialog(String adharId) {
+        Cursor userCursor = adapter.getalluserdetails(adharId);
+        if (userCursor == null || !userCursor.moveToFirst()) {
+            return;
+        }
+
+        String medicalId = userCursor.getString(0);
+        String name = userCursor.getString(1);
+        String address = userCursor.getString(2);
+        String mobile = userCursor.getString(3);
+        String dob = userCursor.getString(5);
+
+        String currentDiseaseName = "N/A";
+        String currentDiseaseSymptoms = "N/A";
+        Cursor currentCursor = adapter.getLatestCurrentDisease(medicalId);
+        if (currentCursor != null && currentCursor.moveToFirst()) {
+            currentDiseaseName = currentCursor.getString(2);
+            currentDiseaseSymptoms = currentCursor.getString(3);
+        }
+        if (currentCursor != null) currentCursor.close();
+
+        String oldDiseaseHistory = "N/A";
+        String recoveredDate = "N/A";
+        Cursor oldCursor = adapter.getLatestOldDisease(medicalId);
+        if (oldCursor != null && oldCursor.moveToFirst()) {
+            oldDiseaseHistory = oldCursor.getString(2);
+            recoveredDate = oldCursor.getString(1);
+        }
+        if (oldCursor != null) oldCursor.close();
+        userCursor.close();
+
+        AlertDialog.Builder alertbuilder = new AlertDialog.Builder(context);
+        alertbuilder.setTitle("User Information");
+
+        TableLayout layout = new TableLayout(context);
+        layout.setPadding(16, 16, 16, 16);
+        layout.setGravity(Gravity.START);
+
+        addInfoRow(layout, "Medical ID:", medicalId);
+        addInfoRow(layout, "Name:", name);
+        addInfoRow(layout, "Address:", address);
+        addInfoRow(layout, "Mobile No.:", mobile);
+        addInfoRow(layout, "DOB:", dob);
+        addInfoRow(layout, "Adhar Card No.:", adharId);
+        addInfoRow(layout, "Current Disease Name:", currentDiseaseName);
+        addInfoRow(layout, "Old Disease History:", oldDiseaseHistory);
+        addInfoRow(layout, "Recovered Date:", recoveredDate);
+        addInfoRow(layout, "Current Disease Symptoms:", currentDiseaseSymptoms);
+
+        alertbuilder.setView(layout);
+        alertbuilder.setPositiveButton("OK", null);
+        alertbuilder.show();
+    }
+
+    private void addInfoRow(TableLayout layout, String label, String value) {
+        TableRow row = new TableRow(context);
+        TextView labelText = new TextView(context);
+        TextView valueText = new TextView(context);
+
+        labelText.setText(label + " ");
+        labelText.setTextSize(16);
+        labelText.setTypeface(null, android.graphics.Typeface.BOLD);
+
+        valueText.setText(value == null || value.trim().isEmpty() ? "N/A" : value);
+        valueText.setTextSize(16);
+
+        row.addView(labelText);
+        row.addView(valueText);
+        row.setPadding(0, 10, 0, 10);
+        layout.addView(row);
     }
 }
