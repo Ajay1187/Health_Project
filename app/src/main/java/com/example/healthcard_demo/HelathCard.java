@@ -43,7 +43,7 @@ public class HelathCard extends AppCompatActivity {
 
         txtMid = findViewById(R.id.txt_patientid);
         txtName = findViewById(R.id.txt_pname);
-        txtAddress = findViewById(R.id.txt_adddressss);
+        txtAddress = findViewById(R.id.txt_address);
         txtPhone = findViewById(R.id.txt_pphoneee);
         txtDob = findViewById(R.id.txt_pdatav);
         imgQr = findViewById(R.id.image_qr_dynamic);

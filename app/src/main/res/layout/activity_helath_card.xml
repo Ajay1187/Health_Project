@@ -55,7 +55,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/txt_pphoneee"
+                            android:id="@+id/txt_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -63,7 +63,7 @@
                             android:textSize="12sp" />
 
                         <TextView
-                            android:id="@+id/txt_patientid"
+                            android:id="@+id/txt_pphoneee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
