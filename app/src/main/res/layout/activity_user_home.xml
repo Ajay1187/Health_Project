@@ -131,8 +131,130 @@
                 style="@style/AppFontStyle"
                 android:text="Health Card"/>
 
+            rsion="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_1img"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_centerVertical="true"/>
+    <ViewFlipper
+        android:id="@+id/vpimg"
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:autoStart="true"
+        android:flipInterval="3000">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/two" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/three" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/four" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/five" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/six" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/one" />
+    </ViewFlipper>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="* Your Medical Id -"
+            android:textSize="15dp"
+            android:textStyle="bold"
+
+            android:textColor="@android:color/holo_red_light"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:id="@+id/txt_id"
+            android:textColor="@android:color/holo_red_light"/>
+
+</LinearLayout>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+
+
+            android:orientation="vertical">
+
+
+
             <Button
-                android:id="@+id/btn_healthInsurance"
+                android:id="@+id/btn_medicalhistory"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blur_bg"
+                style="@style/AppFontStyle"
+                android:textSize="20dp"
+                android:textColor="#fff"
+                android:text="Medical History "/>
+
+            <Button
+                android:id="@+id/btn_predictdisease"
+                android:layout_width="300dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@drawable/blur_bg"
+                style="@style/AppFontStyle"
+                android:textSize="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#fff"
+                android:text="Predict Disease"/>
+
+            <Button
+                android:id="@+id/btn_addhealthissue"
+                android:layout_width="300dp"
+                android:background="@drawable/blur_bg"
+                style="@style/AppFontStyle"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#fff"
+                android:text="Add Health Issue"/>
+
+            <Button
+                android:id="@+id/btn_healthcard"
                 android:layout_width="300dp"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
@@ -140,8 +262,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/blur_bg"
                 style="@style/AppFontStyle"
-                android:text="Health Insurance"/>
-
+                android:text="Health Card"/>
 
 
             <Button

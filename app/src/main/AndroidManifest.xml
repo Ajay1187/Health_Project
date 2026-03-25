@@ -28,9 +28,6 @@
          >
 
         <activity
-            android:name=".HealthInsuranceActivity"
-            android:exported="false" />
-        <activity
             android:name=".PredictionHistoryActivity"
             android:exported="false" />
         <activity
