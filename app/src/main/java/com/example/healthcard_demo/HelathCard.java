@@ -24,6 +24,8 @@ import java.util.Locale;
 
 public class HelathCard extends AppCompatActivity {
 
+    private static final String DEFAULT_BLOOD_GROUP = "O+";
+
     private TextView txtMid;
     private TextView txtName;
     private TextView txtAddress;
@@ -93,19 +95,20 @@ public class HelathCard extends AppCompatActivity {
 
         String currentDiseases = loadDiseaseNames(adapter.selectHelathissue(medicalid), 2);
         String oldDiseases = loadDiseaseNames(adapter.selectDisesehistory(medicalid), 2);
+        String age = calculateAge(dob);
 
-        txtMid.setText("M.ID: " + safe(medicalid));
         txtName.setText("Full Name: " + name);
         txtAddress.setText("Address: " + address);
-        txtPhone.setText("Mobile: " + mobile);
+        txtPhone.setText("Mobile No: " + mobile);
+        txtMid.setText("M.ID: " + safe(medicalid));
         txtDob.setText("D.O.B: " + dob);
-        txtAdhar.setText("Adhar: " + adhar);
-        txtAge.setText("Age: " + calculateAge(dob));
-        txtBloodGroup.setText("Blood Group: O+");
-        txtCurrentDisease.setText("Current Disease(s): " + currentDiseases);
-        txtOldDisease.setText("Old Disease(s): " + oldDiseases);
+        txtAdhar.setText("Adhar No: " + adhar);
+        txtAge.setText("Age: " + age);
+        txtBloodGroup.setText("Blood Group: " + DEFAULT_BLOOD_GROUP);
+        txtCurrentDisease.setText("Current Disease: " + currentDiseases);
+        txtOldDisease.setText("Old Disease History: " + oldDiseases);
 
-        String qrPayload = buildQrPayload(name, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
+        String qrPayload = buildQrPayload(name, age, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
         Bitmap qrBitmap = generateQrCode(qrPayload, 420, 420);
         if (qrBitmap != null) {
             imgQr.setImageBitmap(qrBitmap);
@@ -124,18 +127,18 @@ public class HelathCard extends AppCompatActivity {
         return names.isEmpty() ? "None" : TextUtils.join(", ", names);
     }
 
-    private String buildQrPayload(String name, String dob, String address, String mobile,
+    private String buildQrPayload(String name, String age, String dob, String address, String mobile,
                                   String mid, String adhar, String currentDiseases, String oldDiseases) {
         return "Name: " + name + "\n"
-                + "Age: " + calculateAge(dob) + "\n"
+                + "Age: " + age + "\n"
                 + "DOB: " + dob + "\n"
-                + "Blood Group: O+\n"
+                + "Blood Group: " + DEFAULT_BLOOD_GROUP + "\n"
                 + "Address: " + address + "\n"
                 + "Mobile: " + mobile + "\n"
-                + "Medical ID: " + mid + "\n"
+                + "M.ID: " + mid + "\n"
                 + "Adhar ID: " + adhar + "\n"
-                + "Current Disease(s): " + currentDiseases + "\n"
-                + "Old Disease(s): " + oldDiseases;
+                + "Current Disease: " + currentDiseases + "\n"
+                + "Old Disease History: " + oldDiseases;
     }
 
     private Bitmap generateQrCode(String value, int width, int height) {

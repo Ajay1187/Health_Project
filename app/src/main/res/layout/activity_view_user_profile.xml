@@ -1,238 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background_1img"
+    android:padding="16dp">
 
-    >
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_margin="20dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            tools:ignore="UselessParent">
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#F7FAFF"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="8dp">
 
-            <ImageView
-                android:id="@+id/profile"
-                android:layout_width="164dp"
-                android:layout_height="144dp"
-
-                android:padding="10dp"
-                android:src="@drawable/lp"
-                tools:ignore="ContentDescription" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameError"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:hintAnimationEnabled="true"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                app:boxStrokeColor="@color/white">
+                android:orientation="vertical"
+                android:padding="18dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_pmid"
-                    style="@style/AppFontStyle"
+                <ImageView
+                    android:id="@+id/profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/rounded_image_bg"
+                    android:padding="10dp"
+                    android:src="@drawable/lp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="#7E9BB8">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_pmid"
+                        style="@style/AppFontStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Medical ID"
+                        android:textColor="#173553"
+                        android:textColorHint="#6F88A3"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/blur_bg"
-                    android:enabled="false"
-                    android:hint="Medical ID"
-                    android:importantForAutofill="no"
-                    android:inputType="textNoSuggestions"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="20sp" />
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="#7E9BB8">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_pname"
+                        style="@style/AppFontStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Full Name"
+                        android:textColor="#173553"
+                        android:textColorHint="#6F88A3"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:hintAnimationEnabled="true"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                app:boxStrokeColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/AppFontStyle"
-                    android:background="@drawable/blur_bg"
-                    android:id="@+id/txt_pname"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:enabled="false"
-                    android:hint="User Name"
-                    android:importantForAutofill="no"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="20sp" />
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="#7E9BB8">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_paddress"
+                        style="@style/AppFontStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Address"
+                        android:textColor="#173553"
+                        android:textColorHint="#6F88A3"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/addressError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:hintAnimationEnabled="true"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                app:boxStrokeColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/AppFontStyle"
-                    android:background="@drawable/blur_bg"
-                    android:id="@+id/txt_paddress"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:enabled="false"
-                    android:hint="User Address"
-                    android:importantForAutofill="no"
-                    android:inputType="textNoSuggestions"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="20sp" />
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="#7E9BB8">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_pphone"
+                        style="@style/AppFontStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Mobile Number"
+                        android:textColor="#173553"
+                        android:textColorHint="#6F88A3"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:hintAnimationEnabled="true"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                app:boxStrokeColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/AppFontStyle"
-                    android:background="@drawable/blur_bg"
-                    android:id="@+id/txt_pphone"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:enabled="false"
-                    android:hint="User Mobile Number"
-                    android:importantForAutofill="no"
-                    android:inputType="phone"
-                    android:maxLength="10"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="20sp" />
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="#7E9BB8">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_padhar"
+                        style="@style/AppFontStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Adhar Number"
+                        android:textColor="#173553"
+                        android:textColorHint="#6F88A3"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                app:boxStrokeColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_padhar"
-                    style="@style/AppFontStyle"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/blur_bg"
-                    android:enabled="false"
-                    android:hint="Adhar Number"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="20sp" />
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="#7E9BB8">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_pweight"
+                        style="@style/AppFontStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Weight"
+                        android:textColor="#173553"
+                        android:textColorHint="#6F88A3"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                app:boxStrokeColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_pweight"
-                    style="@style/AppFontStyle"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/blur_bg"
-                    android:enabled="false"
-                    android:hint="Weight"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="20sp" />
+                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxCornerRadiusBottomEnd="14dp"
+                    app:boxCornerRadiusBottomStart="14dp"
+                    app:boxCornerRadiusTopEnd="14dp"
+                    app:boxCornerRadiusTopStart="14dp"
+                    app:boxStrokeColor="#7E9BB8">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_pbloodgroup"
+                        style="@style/AppFontStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Blood Group"
+                        android:textColor="#173553"
+                        android:textColorHint="#6F88A3"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white"
-                app:boxStrokeColor="@color/white">
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_pbloodgroup"
-                    style="@style/AppFontStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/blur_bg"
-                    android:enabled="false"
-                    android:hint="Blood Group"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="20sp" />
+        <Button
+            android:id="@+id/btn_backk"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/glass_button"
+            android:text="Back"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                style="@style/AppFontStyle"
-                android:background="@drawable/blur_bg"
-                android:id="@+id/btn_backk"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Back"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
-
+    </LinearLayout>
+</ScrollView>
