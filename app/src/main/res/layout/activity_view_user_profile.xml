@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_1img"
+    android:background="@drawable/bg_profile_green_theme"
     android:padding="16dp">
 
     <LinearLayout
@@ -14,7 +14,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#F7FAFF"
+            app:cardBackgroundColor="#DDF5E8"
             app:cardCornerRadius="22dp"
             app:cardElevation="8dp">
 
@@ -33,16 +33,24 @@
                     android:padding="10dp"
                     android:src="@drawable/lp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="MID :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="#7E9BB8">
+                    app:boxStrokeColor="#2E7D5B">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_pmid"
@@ -51,21 +59,29 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Medical ID"
-                        android:textColor="#173553"
-                        android:textColorHint="#6F88A3"
+                        android:textColor="#114732"
+                        android:textColorHint="#4A7F68"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Name :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="#7E9BB8">
+                    app:boxStrokeColor="#2E7D5B">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_pname"
@@ -74,21 +90,29 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Full Name"
-                        android:textColor="#173553"
-                        android:textColorHint="#6F88A3"
+                        android:textColor="#114732"
+                        android:textColorHint="#4A7F68"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Address :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="#7E9BB8">
+                    app:boxStrokeColor="#2E7D5B">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_paddress"
@@ -97,21 +121,29 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Address"
-                        android:textColor="#173553"
-                        android:textColorHint="#6F88A3"
+                        android:textColor="#114732"
+                        android:textColorHint="#4A7F68"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Mobile Number :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="#7E9BB8">
+                    app:boxStrokeColor="#2E7D5B">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_pphone"
@@ -120,21 +152,29 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Mobile Number"
-                        android:textColor="#173553"
-                        android:textColorHint="#6F88A3"
+                        android:textColor="#114732"
+                        android:textColorHint="#4A7F68"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Aadhaar Number :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="#7E9BB8">
+                    app:boxStrokeColor="#2E7D5B">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_padhar"
@@ -143,21 +183,29 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Adhar Number"
-                        android:textColor="#173553"
-                        android:textColorHint="#6F88A3"
+                        android:textColor="#114732"
+                        android:textColorHint="#4A7F68"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Weight :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="#7E9BB8">
+                    app:boxStrokeColor="#2E7D5B">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_pweight"
@@ -166,21 +214,29 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Weight"
-                        android:textColor="#173553"
-                        android:textColorHint="#6F88A3"
+                        android:textColor="#114732"
+                        android:textColorHint="#4A7F68"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Blood Group :"
+                    android:textColor="#114732"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:boxBackgroundColor="#FFFFFF"
+                    app:boxBackgroundColor="#F4FCF7"
                     app:boxCornerRadiusBottomEnd="14dp"
                     app:boxCornerRadiusBottomStart="14dp"
                     app:boxCornerRadiusTopEnd="14dp"
                     app:boxCornerRadiusTopStart="14dp"
-                    app:boxStrokeColor="#7E9BB8">
+                    app:boxStrokeColor="#2E7D5B">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txt_pbloodgroup"
@@ -189,8 +245,8 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Blood Group"
-                        android:textColor="#173553"
-                        android:textColorHint="#6F88A3"
+                        android:textColor="#114732"
+                        android:textColorHint="#4A7F68"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
