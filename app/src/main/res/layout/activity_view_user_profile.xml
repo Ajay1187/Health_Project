@@ -148,6 +148,76 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:boxStrokeColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_padhar"
+                    style="@style/AppFontStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/blur_bg"
+                    android:enabled="false"
+                    android:hint="Adhar Number"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="20sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:boxStrokeColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_pweight"
+                    style="@style/AppFontStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/blur_bg"
+                    android:enabled="false"
+                    android:hint="Weight"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="20sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:boxStrokeColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_pbloodgroup"
+                    style="@style/AppFontStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/blur_bg"
+                    android:enabled="false"
+                    android:hint="Blood Group"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="20sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 style="@style/AppFontStyle"
                 android:background="@drawable/blur_bg"
@@ -161,14 +231,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/qr"
-                android:layout_width="152dp"
-                android:layout_height="149dp"
-
-                android:padding="10dp"
-                android:src="@drawable/qr"
-                tools:ignore="ContentDescription" />
 
         </LinearLayout>
     </ScrollView>

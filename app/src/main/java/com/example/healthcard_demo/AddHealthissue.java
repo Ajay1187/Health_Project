@@ -1,562 +1,214 @@
 package com.example.healthcard_demo;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AddHealthissue extends AppCompatActivity {
-EditText mid,ddate;
-Button b1;
-TestAdapter adapter;
-String medicalid,disdate,dname,sname;
-String usermedicalid;
-Spinner hdisease,msymtons;
-    List<String> list,list1;
-    ArrayAdapter<String> arrayAdapter;
-String mobile;
+
+    private EditText mid;
+    private EditText ddate;
+    private Button b1;
+    private TestAdapter adapter;
+    private Spinner hdisease;
+    private TextView symptomField;
+
+    private String usermedicalid;
+
+    private DiseaseDataRepository diseaseDataRepository;
+    private List<String> diseases = new ArrayList<>();
+    private List<String> availableSymptoms = new ArrayList<>();
+    private final Set<String> selectedSymptoms = new LinkedHashSet<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_healthissue);
-        mid=(EditText) findViewById(R.id.txt_medicalid);
-        hdisease=(Spinner) findViewById(R.id.txt_diseses);
-        msymtons=(Spinner) findViewById(R.id.txt_symtons);
-        ddate=(EditText)findViewById(R.id.txt_date) ;
-        b1=(Button) findViewById(R.id.btn_adddises);
 
-        list = new ArrayList<String>();
+        mid = findViewById(R.id.txt_medicalid);
+        hdisease = findViewById(R.id.txt_diseses);
+        symptomField = findViewById(R.id.txt_symtons);
+        ddate = findViewById(R.id.txt_date);
+        b1 = findViewById(R.id.btn_adddises);
 
-        list.add("itching");
-        list.add("skin_rash ");
-        list.add("nodal_skin_eruptions");
-        list.add("Cephalalgia");
+        String dateNow = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
+        ddate.setText(dateNow);
 
-        list.add("Rhinovirus");
-        list.add("Otitis externa ");
-        list.add("Pharyngitis");
-        list.add("Tussis");
-
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        hdisease.setAdapter(arrayAdapter);
-
-
-        list1 = new ArrayList<String>();
-        list1.add("Select Symptoms");
-        list1.add("loss of appetite");
-        list1.add("facial pain ");
-        list1.add("sore throat");
-        list1.add("cough, and congestion.");
-
-        list1.add("Ritch in ear, ear pain, pus in ear");
-        list1.add(" fluids, gargling ");
-        list1.add("swelling in the neck");
-        list1.add("changes in the voice and difficulty breathing");
-
-
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list1);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        msymtons.setAdapter(arrayAdapter);
-
-
-        String date_n = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date());
-      ;
-        ddate.setText(date_n);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            usermedicalid = bundle.getString("MedicalID", "");
+            mid.setText(usermedicalid);
+        }
 
         try {
             adapter = new TestAdapter(this);
             adapter.createDatabase();
             adapter.open();
-
-
-            Bundle bundle = getIntent().getExtras();
-            usermedicalid = bundle.getString("MedicalID");
-            mid.setText(usermedicalid);
-
-            b1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    medicalid=mid.getText().toString();
-                    disdate=ddate.getText().toString();
-                    dname=hdisease.getSelectedItem().toString();
-                    sname=msymtons.getSelectedItem().toString();
-
-
-                    if (TextUtils.isEmpty(medicalid)) {
-                        Toast.makeText(getApplicationContext(), "Please Enter Your Medical Id..", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (TextUtils.isEmpty(disdate)) {
-                        Toast.makeText(getApplicationContext(), "Please Enter The Date..", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (TextUtils.isEmpty(dname)) {
-                        Toast.makeText(getApplicationContext(), "Please Enter The Disease Name..", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (TextUtils.isEmpty(sname)) {
-                        Toast.makeText(getApplicationContext(), "Please Enter  the Symptoms..", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else {
-
-                        AddHelthissue();
-
-                    }
-
-                }
-            });
-
-            msymtons.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if( i==0){
-
-                    }
-                    if(i==1){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Chetan Deskmukh\nDiet Plan:- Fruits\nExercise:- Yoga ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-
-
-
-                    if(i==2){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Dr.Kishor Mane\n" +
-                                        "Diet Plan:- The Paleo Diet\n" +
-                                        "Exercise:- Gym ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-
-                    if(i==3){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Dr.Subhodh Shivde\n" +
-                                        "Diet Plan:-The Vegan Diet.\n" +
-                                        "Exercise:- Runing ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-
-                    if(i==4){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Dr.Prakash Kadam\n" +
-                                        "Diet Plan:-Low-Carb Diets.\n" +
-                                        "Exercise:- Walk 3km ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-
-
-                    if(i==5){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Dr.Sumit Kadam\n" +
-                                        "Diet Plan:-The Dukan Diet.\n" +
-                                        "Exercise:- Yoga ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-
-                    if(i==6){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Dr.Santosh Gaikwad\n" +
-                                        "Diet Plan:-The Atkins Diet.\n" +
-                                        "Exercise:- Gym ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-
-                    if(i==7){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Dr.Abhishek Khalate\n" +
-                                        "Diet Plan:-The HCG Diet.\n" +
-                                        "Exercise:- Gym ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-
-
-                    if(i==8){
-                        final ProgressDialog dialog =
-                                new ProgressDialog(AddHealthissue.this);
-                        dialog.setIcon(R.drawable.add);
-                        dialog.setTitle("Prediction Process Is Start...");
-                        dialog.setMessage("Please wait...");
-                        dialog.show();
-
-                        //   long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-                        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
-
-                        final Runnable progressRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                dialog.cancel();
-                                String mpass = null;
-
-                                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                                        Builder(AddHealthissue.this);
-
-                                alertDialogBuilder.setMessage("Suggest Doctor :- Dr.Amit Kadam\n" +
-                                        "Diet Plan:-The Zone Diet.\n" +
-                                        "Exercise:- Walk ..");
-
-                                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialogBuilder.setPositiveButton("OK.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-
-
-
-                                            }
-                                        });
-                                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                                alDialog.show();
-                            }
-
-                        };
-
-                        Handler pdCanceller = new Handler();
-                        pdCanceller.postDelayed(progressRunnable, 3000);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-
-
-
-        }catch (Exception e){}
+            diseaseDataRepository = new DiseaseDataRepository(this);
+
+            setupDiseaseSpinner();
+            setupSymptomSelector();
+            setupAddButton();
+        } catch (Exception exception) {
+            Toast.makeText(this, "Failed to load disease data.", Toast.LENGTH_SHORT).show();
         }
+    }
 
-    private void AddHelthissue() {
-        final ProgressDialog dialog =
-                new ProgressDialog(AddHealthissue.this);
+    private void setupDiseaseSpinner() {
+        diseases = diseaseDataRepository.getAllDiseases();
+        List<String> diseaseChoices = new ArrayList<>();
+        diseaseChoices.add("Select Disease");
+        diseaseChoices.addAll(diseases);
+
+        ArrayAdapter<String> diseaseAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                diseaseChoices
+        );
+        diseaseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hdisease.setAdapter(diseaseAdapter);
+
+        hdisease.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+                selectedSymptoms.clear();
+                if (position == 0) {
+                    availableSymptoms = new ArrayList<>();
+                    symptomField.setText("Select Symptoms");
+                    return;
+                }
+                String selectedDisease = diseaseChoices.get(position);
+                availableSymptoms = diseaseDataRepository.getSymptomsForDisease(selectedDisease);
+                symptomField.setText("Select Symptoms");
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+                selectedSymptoms.clear();
+                availableSymptoms = new ArrayList<>();
+                symptomField.setText("Select Symptoms");
+            }
+        });
+    }
+
+    private void setupSymptomSelector() {
+        symptomField.setOnClickListener(v -> {
+            if (availableSymptoms.isEmpty()) {
+                Toast.makeText(this, "Please select disease first.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            boolean[] checkedItems = new boolean[availableSymptoms.size()];
+            for (int i = 0; i < availableSymptoms.size(); i++) {
+                checkedItems[i] = selectedSymptoms.contains(availableSymptoms.get(i));
+            }
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Select Symptoms")
+                    .setMultiChoiceItems(availableSymptoms.toArray(new String[0]), checkedItems, (dialog, which, isChecked) -> {
+                        String symptom = availableSymptoms.get(which);
+                        if (isChecked) {
+                            selectedSymptoms.add(symptom);
+                        } else {
+                            selectedSymptoms.remove(symptom);
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .setPositiveButton("Done", (dialog, which) -> {
+                        if (selectedSymptoms.isEmpty()) {
+                            symptomField.setText("Select Symptoms");
+                        } else {
+                            symptomField.setText(TextUtils.join(", ", selectedSymptoms));
+                        }
+                    })
+                    .show();
+        });
+    }
+
+    private void setupAddButton() {
+        b1.setOnClickListener(view -> {
+            String medicalid = mid.getText().toString().trim();
+            String disdate = ddate.getText().toString().trim();
+            String dname = hdisease.getSelectedItem() == null ? "" : hdisease.getSelectedItem().toString().trim();
+            String sname = TextUtils.join(", ", selectedSymptoms);
+
+            if (TextUtils.isEmpty(medicalid)) {
+                Toast.makeText(getApplicationContext(), "Please Enter Your Medical Id..", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (TextUtils.isEmpty(disdate)) {
+                Toast.makeText(getApplicationContext(), "Please Enter The Date..", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (TextUtils.isEmpty(dname) || "Select Disease".equalsIgnoreCase(dname)) {
+                Toast.makeText(getApplicationContext(), "Please select disease.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (selectedSymptoms.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Please select at least one symptom.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            showRecommendationAndConfirm(medicalid, disdate, dname, sname);
+        });
+    }
+
+    private void showRecommendationAndConfirm(String medicalid, String disdate, String dname, String sname) {
+        DiseaseResponse response = diseaseDataRepository.getDetailsForDisease(dname);
+        String message = "Doctor Name: " + safe(response.getDoctorDetails()) + "\n\n"
+                + "Diet Plan: " + safe(response.getDietPlan()) + "\n\n"
+                + "Exercise: " + safe(response.getExercise());
+
+        new AlertDialog.Builder(this)
+                .setTitle("Suggested Plan")
+                .setMessage(message)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Add Health Issue", (dialog, which) -> addHealthIssue(medicalid, disdate, dname, sname))
+                .show();
+    }
+
+    private void addHealthIssue(String medicalid, String disdate, String dname, String sname) {
+        ProgressDialog dialog = new ProgressDialog(AddHealthissue.this);
         dialog.setIcon(R.drawable.add);
         dialog.setTitle("Processing Your Request...");
         dialog.setMessage("Please wait...");
         dialog.show();
 
-      long i = adapter.InsertHealthissue(medicalid,disdate, dname, sname);
-        //Toast.makeText(getApplicationContext(), "Health Issue Register Sucessfully..." + i, Toast.LENGTH_SHORT).show();
+        long inserted = adapter.InsertHealthissue(medicalid, disdate, dname, sname);
+        dialog.dismiss();
 
-        final Runnable progressRunnable = new Runnable() {
-
-            @Override
-            public void run() {
-                dialog.cancel();
-                String mpass = null;
-
-                final android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.
-                        Builder(AddHealthissue.this);
-
-                alertDialogBuilder.setTitle("Disease Add Successfully ..");
-
-                final android.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialogBuilder.setPositiveButton("OK.",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                               /* Intent i = new Intent(AddHealthissue.this, UserHomeActivity.class);
-                                i.putExtra("MedicalID",medicalid);
-                                startActivity(i);*/
-
-
-                            }
-                        });
-                android.app.AlertDialog alDialog = alertDialogBuilder.create();
-                alDialog.show();
-            }
-
-        };
-
-        Handler pdCanceller = new Handler();
-        pdCanceller.postDelayed(progressRunnable, 3000);
-
+        if (inserted > 0) {
+            new AlertDialog.Builder(AddHealthissue.this)
+                    .setTitle("Disease Added Successfully")
+                    .setMessage("The issue was added to Current Disease history.")
+                    .setPositiveButton("OK", null)
+                    .show();
+        } else {
+            Toast.makeText(this, "Failed to add health issue.", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    private String safe(String value) {
+        return TextUtils.isEmpty(value) ? "Not available" : value;
     }
+}
