@@ -200,6 +200,14 @@ public class TestAdapter {
         mDb.delete("Healthissue", "D_Name=?", new String[]{udname});
     }
 
+    public void deleteHealthIssue(String medicalId, String appointmentDate, String diseaseName, String symptoms) {
+        mDb.delete(
+                "Healthissue",
+                "M_Id=? AND D_Date=? AND D_Name=? AND D_Symptons=?",
+                new String[]{medicalId, appointmentDate, diseaseName, symptoms}
+        );
+    }
+
     public Cursor selectcurrentdises(String udname) {
         String q = "Select * from Healthissue where D_Name='" + udname + "'";
         Cursor c = mDb.rawQuery(q, null);
