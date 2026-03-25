@@ -1,9 +1,12 @@
 package com.example.healthcard_demo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.print.PrintHelper;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,28 +16,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 
 public class HelathCard extends AppCompatActivity {
+
+    private static final String DEFAULT_BLOOD_GROUP = "O+";
 
     private TextView txtMid;
     private TextView txtName;
     private TextView txtAddress;
     private TextView txtPhone;
     private TextView txtDob;
-    private TextView txtAdhar;
-    private TextView txtAge;
-    private TextView txtBloodGroup;
-    private TextView txtCurrentDisease;
-    private TextView txtOldDisease;
     private ImageView imgQr;
+    private CardView smartCardContainer;
 
     private TestAdapter adapter;
     private String medicalid;
@@ -46,18 +51,14 @@ public class HelathCard extends AppCompatActivity {
 
         txtMid = findViewById(R.id.txt_patientid);
         txtName = findViewById(R.id.txt_pname);
-        txtAddress = findViewById(R.id.txt_adddressss);
+        txtAddress = findViewById(R.id.txt_address);
         txtPhone = findViewById(R.id.txt_pphoneee);
         txtDob = findViewById(R.id.txt_pdatav);
-        txtAdhar = findViewById(R.id.txt_adhar);
-        txtAge = findViewById(R.id.txt_age);
-        txtBloodGroup = findViewById(R.id.txt_blood_group);
-        txtCurrentDisease = findViewById(R.id.txt_current_disease);
-        txtOldDisease = findViewById(R.id.txt_old_disease);
         imgQr = findViewById(R.id.image_qr_dynamic);
-        Button btnBack = findViewById(R.id.btn_printcard);
+        smartCardContainer = findViewById(R.id.smart_card_container);
+        Button btnPrint = findViewById(R.id.btn_printcard);
 
-        btnBack.setOnClickListener(v -> finish());
+        btnPrint.setOnClickListener(v -> printSmartCard());
 
         try {
             adapter = new TestAdapter(this);
@@ -93,23 +94,34 @@ public class HelathCard extends AppCompatActivity {
 
         String currentDiseases = loadDiseaseNames(adapter.selectHelathissue(medicalid), 2);
         String oldDiseases = loadDiseaseNames(adapter.selectDisesehistory(medicalid), 2);
+        String age = calculateAge(dob);
 
-        txtMid.setText("M.ID: " + safe(medicalid));
-        txtName.setText("Full Name: " + name);
+        txtName.setText("Name: " + name);
         txtAddress.setText("Address: " + address);
-        txtPhone.setText("Mobile: " + mobile);
-        txtDob.setText("D.O.B: " + dob);
-        txtAdhar.setText("Adhar: " + adhar);
-        txtAge.setText("Age: " + calculateAge(dob));
-        txtBloodGroup.setText("Blood Group: O+");
-        txtCurrentDisease.setText("Current Disease(s): " + currentDiseases);
-        txtOldDisease.setText("Old Disease(s): " + oldDiseases);
+        txtPhone.setText("Mobile No: " + mobile);
+        txtMid.setText("M ID: " + safe(medicalid));
+        txtDob.setText("DOB: " + dob);
 
-        String qrPayload = buildQrPayload(name, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
-        Bitmap qrBitmap = generateQrCode(qrPayload, 420, 420);
+        String qrPayload = buildQrPayload(name, age, dob, address, mobile, medicalid, adhar, currentDiseases, oldDiseases);
+        Bitmap qrBitmap = generateQrCode(qrPayload, 900, 900);
         if (qrBitmap != null) {
             imgQr.setImageBitmap(qrBitmap);
         }
+    }
+
+    private void printSmartCard() {
+        if (smartCardContainer == null || smartCardContainer.getWidth() == 0 || smartCardContainer.getHeight() == 0) {
+            Toast.makeText(this, "Card not ready to print.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(smartCardContainer.getWidth(), smartCardContainer.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        smartCardContainer.draw(canvas);
+
+        PrintHelper printHelper = new PrintHelper(this);
+        printHelper.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+        printHelper.printBitmap("Smart Health Card", bitmap);
     }
 
     private String loadDiseaseNames(Cursor cursor, int diseaseColumnIndex) {
@@ -124,24 +136,29 @@ public class HelathCard extends AppCompatActivity {
         return names.isEmpty() ? "None" : TextUtils.join(", ", names);
     }
 
-    private String buildQrPayload(String name, String dob, String address, String mobile,
+    private String buildQrPayload(String name, String age, String dob, String address, String mobile,
                                   String mid, String adhar, String currentDiseases, String oldDiseases) {
         return "Name: " + name + "\n"
-                + "Age: " + calculateAge(dob) + "\n"
-                + "DOB: " + dob + "\n"
-                + "Blood Group: O+\n"
                 + "Address: " + address + "\n"
                 + "Mobile: " + mobile + "\n"
-                + "Medical ID: " + mid + "\n"
+                + "M.ID: " + mid + "\n"
+                + "DOB: " + dob + "\n"
                 + "Adhar ID: " + adhar + "\n"
-                + "Current Disease(s): " + currentDiseases + "\n"
-                + "Old Disease(s): " + oldDiseases;
+                + "Age: " + age + "\n"
+                + "Blood Group: " + DEFAULT_BLOOD_GROUP + "\n"
+                + "Current Disease: " + currentDiseases + "\n"
+                + "Old Disease History: " + oldDiseases;
     }
 
     private Bitmap generateQrCode(String value, int width, int height) {
         try {
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(value, BarcodeFormat.QR_CODE, width, height);
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            Map<EncodeHintType, Object> hints = new HashMap<>();
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+            hints.put(EncodeHintType.MARGIN, 2);
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(value, BarcodeFormat.QR_CODE, width, height, hints);
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
