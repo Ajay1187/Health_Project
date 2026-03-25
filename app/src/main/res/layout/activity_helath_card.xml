@@ -40,13 +40,61 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp">
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:id="@+id/right_column"
                         android:layout_width="96dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_pname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ECFFF4"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txt_pdatav"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:textColor="#ECFFF4"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/txt_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:textColor="#ECFFF4"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/txt_pphoneee"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:textColor="#ECFFF4"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/txt_patientid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:textColor="#ECFFF4"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <ImageView
@@ -69,61 +117,7 @@
                             android:padding="4dp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txt_pname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@id/right_column"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="#ECFFF4"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txt_pname"
-                        android:layout_toStartOf="@id/right_column"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="#ECFFF4"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/txt_pphoneee"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txt_address"
-                        android:layout_toStartOf="@id/right_column"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="#ECFFF4"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/txt_patientid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/txt_pphoneee"
-                        android:layout_toStartOf="@id/right_column"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="#ECFFF4"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/txt_pdatav"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/image_qr_dynamic"
-                        android:layout_toStartOf="@id/right_column"
-                        android:layout_marginEnd="8dp"
-                        android:textColor="#ECFFF4"
-                        android:textSize="12sp" />
-
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
