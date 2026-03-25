@@ -4,7 +4,7 @@ This folder contains the CNN training pipeline used by the app prediction flow.
 
 ## Runtime prediction path
 
-The Android app prefers a TensorFlow Lite CNN model for disease prediction and falls back to a dataset-overlap matcher when the TFLite asset has not yet been bundled.
+The Android app uses a TensorFlow Lite CNN model for disease prediction and falls back to a dataset-overlap matcher only when the TFLite asset is missing.
 Train the model from `ml/dataset.csv` and copy the generated `disease_cnn.tflite` file into:
 
 `app/src/main/assets/disease_data/disease_cnn.tflite`
