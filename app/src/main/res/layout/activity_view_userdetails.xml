@@ -1,9 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewUserdetails">
+    android:background="@drawable/background_1img"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/blur_bg"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Information"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="12dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Medical ID:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_medical_id_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Name:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_name_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Address:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_address_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Mobile No.:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_mobile_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DOB:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_dob_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Adhar Card No.:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_adhar_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Current Disease Name:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_current_disease_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Old Disease History:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_old_disease_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Recovered Date:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_recovered_date_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" android:layout_marginBottom="8dp" />
+
+        <TextView style="@style/AppFontStyle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Current Disease Symptoms:" android:textColor="@android:color/white" />
+        <TextView android:id="@+id/tv_current_symptoms_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>

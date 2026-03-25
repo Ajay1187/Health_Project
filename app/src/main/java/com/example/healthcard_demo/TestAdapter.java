@@ -232,6 +232,16 @@ public class TestAdapter {
         return c;
     }
 
+    public Cursor getLatestCurrentDisease(String medicalId) {
+        String q = "Select * from Healthissue where M_Id='" + medicalId + "' ORDER BY rowid DESC LIMIT 1";
+        return mDb.rawQuery(q, null);
+    }
+
+    public Cursor getLatestOldDisease(String medicalId) {
+        String q = "Select * from Diseases where D_Id='" + medicalId + "' ORDER BY rowid DESC LIMIT 1";
+        return mDb.rawQuery(q, null);
+    }
+
     public long InsertDoctor(String medicalid, String semial, String saddress, String sphone,
                              String sadhar, String squestion, String sans, String spassword) {
         long i;

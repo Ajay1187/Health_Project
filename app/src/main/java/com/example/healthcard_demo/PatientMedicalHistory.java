@@ -2,7 +2,6 @@ package com.example.healthcard_demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,82 +12,68 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PatientMedicalHistory extends AppCompatActivity {
-ListView sp1;
+    ListView sp1;
     ArrayAdapter<String> ad;
-    List<String > list;
-    final Context context=this;
+    List<String> list;
     EditText inputSearch;
-TestAdapter adapter;
+    TestAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_medical_history);
 
-        sp1=(ListView) findViewById(R.id.txt_patientmedicalid);
-        inputSearch=(EditText) findViewById(R.id.inputSearch);
+        sp1 = findViewById(R.id.txt_patientmedicalid);
+        inputSearch = findViewById(R.id.inputSearch);
 
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
                 PatientMedicalHistory.this.ad.getFilter().filter(cs);
             }
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-                                          int arg3) {
-                // TODO Auto-generated method stub
 
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             }
+
             @Override
             public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
             }
         });
-
 
         try {
             adapter = new TestAdapter(this);
             adapter.createDatabase();
             adapter.open();
 
-            AddMedicalId();
-
+            addMedicalId();
 
             sp1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    String id=sp1.getItemAtPosition(position).toString();
-                    Intent i = new Intent(PatientMedicalHistory.this, ViewMedicalHistory.class);
-                    i.putExtra("Key",id);
-                    startActivity(i);
+                    String medicalId = sp1.getItemAtPosition(position).toString();
+                    Intent intent = new Intent(PatientMedicalHistory.this, ViewUserdetails.class);
+                    intent.putExtra("MedicalID", medicalId);
+                    startActivity(intent);
                 }
             });
 
-
-        }catch (Exception e){}
-
-
-
-
+        } catch (Exception ignored) {
+        }
     }
 
-    private void AddMedicalId() {
-        Cursor c=adapter.selectUser();
-        list=new ArrayList<String>();
-        while(c.moveToNext())
-        {
-
-            list.add(c.getString(0).toString());
-
+    private void addMedicalId() {
+        Cursor c = adapter.selectUser();
+        list = new ArrayList<>();
+        while (c.moveToNext()) {
+            list.add(c.getString(0));
         }
-        ad=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,list);
-
+        ad = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
         sp1.setAdapter(ad);
     }
 }
