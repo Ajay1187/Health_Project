@@ -22,8 +22,7 @@ Outputs:
 - `ml/output/feature_config.json`
 - `ml/output/metrics.txt`
 
-
-## Optional sklearn trainer
+## Optional sklearn trainer (offline experiments only)
 
 ```bash
 python ml/train_model_sklearn.py --data ml/dataset.csv --out-dir ml/output
@@ -35,24 +34,4 @@ Outputs:
 - `ml/output/feature_config_sklearn.json`
 - `ml/output/metrics_sklearn.txt`
 
-## CNN trainer
-
-```bash
-python ml/train_cnn_model.py --data ml/dataset.csv --out-dir ml/output --epochs 30
-```
-
-Outputs:
-- `ml/output/disease_cnn.keras`
-- `ml/output/disease_cnn.tflite`
-- `ml/output/labels.txt`
-- `ml/output/feature_config.json`
-- `ml/output/metrics.txt`
-
-
-## Naive Bayes trainer (app fallback model)
-
-```bash
-python ml/train_naive_bayes_model.py --data ml/dataset.csv --out app/src/main/assets/disease_data/disease_nb_model.json
-```
-
-This regenerates `disease_nb_model.json` from the latest dataset so the Android app can predict with the updated data even when `disease_cnn.tflite` is not bundled.
+> Note: The Android app runtime path is CNN (`disease_cnn.tflite`), not sklearn.
