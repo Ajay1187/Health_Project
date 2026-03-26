@@ -3,74 +3,115 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background_1img"
-    android:padding="10dp">
+    android:background="@drawable/background_1img">
 
-    <EditText
-        android:id="@+id/txt_doctor_id"
-        style="@style/AppFontStyle"
+    <ViewFlipper
+        android:id="@+id/vf_add_issue_banner"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/blur_bg"
-        android:enabled="false"
-        android:gravity="center"
-        android:hint="Doctor ID"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
+        android:layout_height="210dp"
+        android:autoStart="true"
+        android:flipInterval="3000">
 
-    <EditText
-        android:id="@+id/txt_patient_medical_id"
-        style="@style/AppFontStyle"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/blur_bg"
-        android:gravity="center"
-        android:hint="Enter Patient Medical ID"
-        android:inputType="text"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/two" />
 
-    <EditText
-        android:id="@+id/txt_doctor_date"
-        style="@style/AppFontStyle"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/blur_bg"
-        android:enabled="false"
-        android:gravity="center"
-        android:hint="Date"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/three" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Select Disease"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/four" />
 
-    <Spinner
-        android:id="@+id/spn_doctor_disease"
-        style="@style/AppFontStyle"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/blur_bg" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/five" />
+    </ViewFlipper>
 
-    <Button
-        android:id="@+id/btn_doctor_add_issue"
-        style="@style/AppFontStyle"
+    <ScrollView
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/blur_bg"
-        android:text="Add Health Issue"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_margin="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/glass_card"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <EditText
+                android:id="@+id/txt_doctor_id"
+                style="@style/AppFontStyle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/blur_bg"
+                android:enabled="false"
+                android:gravity="center"
+                android:hint="Doctor ID"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
+
+            <EditText
+                android:id="@+id/txt_patient_medical_id"
+                style="@style/AppFontStyle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/blur_bg"
+                android:gravity="center"
+                android:hint="Enter Patient Medical ID"
+                android:inputType="text"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
+
+            <EditText
+                android:id="@+id/txt_doctor_date"
+                style="@style/AppFontStyle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/blur_bg"
+                android:enabled="false"
+                android:gravity="center"
+                android:hint="Date"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Select Disease"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spn_doctor_disease"
+                style="@style/AppFontStyle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/blur_bg" />
+
+            <Button
+                android:id="@+id/btn_doctor_add_issue"
+                style="@style/AppFontStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/blur_bg"
+                android:text="Add Health Issue"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

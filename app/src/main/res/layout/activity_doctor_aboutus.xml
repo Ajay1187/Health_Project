@@ -1,41 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_doctor_aboutus"
     android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_centerVertical="true"/>
+
     <ViewFlipper
         android:id="@+id/vpimg"
-        android:layout_marginTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:autoStart="true"
         android:flipInterval="3000">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/one"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/three"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/four"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/five" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -45,40 +20,83 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:background="@drawable/three" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/four" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/five" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:background="@drawable/one" />
     </ViewFlipper>
 
-
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="About Us "
-        android:textSize="20dp"
-        android:textColor="@color/purple_500"
-        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:gravity="center"
+        android:text="About Us"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
         android:textStyle="bold"
-        />
+        android:layout_marginHorizontal="16dp" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"><LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:padding="16dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:text="Managing health card information using information technology(IT) is an important part of the changing health-care system. A health-care information management system is defined as application consisting of a collection of procedures and programs with the requirements for entering, storing, retrieving, updating and manipulating data having adequate capacity to maintain the integrity, security and confidentiality with fulfilling management, legal and accounting requirements. Proper implementation of information technology makes it easy for healthcare providers to store, share and access the health information. With an increase in access to larger computers and new advances in information technology resulted the development of more efficient data management system. However, all these developments are within the network of a particular hospital or within the network of a limited number of hospitals. The patient cannot utilize their medical data outside the network as patient wishes."
-            android:textColor="@color/white"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_aboutus_card"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:text="Our Health Card platform helps doctors and patients manage medical information securely and efficiently."
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="4dp"
+                android:text="It supports the complete data lifecycle, including creating, storing, updating, and retrieving health records while preserving confidentiality and integrity."
+                android:textColor="#E3FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="4dp"
+                android:text="By using modern information technology, healthcare providers can share records more effectively and deliver better care with less delay."
+                android:textColor="#E3FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:lineSpacingExtra="4dp"
+                android:text="Our goal is to make patient medical data easier to access across broader healthcare networks, so treatment decisions can be faster and more informed."
+                android:textColor="#E3FFFFFF"
+                android:textSize="15sp" />
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

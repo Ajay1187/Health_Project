@@ -1,6 +1,5 @@
 package com.example.healthcard_demo;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -100,22 +99,8 @@ public class DoctorAddHealthIssueActivity extends AppCompatActivity {
             List<String> diseaseSymptoms = diseaseDataRepository.getSymptomsForDisease(disease);
             String symptoms = diseaseSymptoms.isEmpty() ? "Not specified" : TextUtils.join(", ", diseaseSymptoms);
 
-            showRecommendationAndConfirm(patientMedicalId, date, disease, symptoms);
+            addHealthIssue(patientMedicalId, date, disease, symptoms);
         });
-    }
-
-    private void showRecommendationAndConfirm(String patientMedicalId, String date, String disease, String symptoms) {
-        DiseaseResponse response = diseaseDataRepository.getDetailsForDisease(disease);
-        String message = "Doctor Name: " + safe(response.getDoctorDetails()) + "\n\n"
-                + "Diet Plan: " + safe(response.getDietPlan()) + "\n\n"
-                + "Exercise: " + safe(response.getExercise());
-
-        new AlertDialog.Builder(this)
-                .setTitle("Suggested Plan")
-                .setMessage(message)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Add Health Issue", (dialog, which) -> addHealthIssue(patientMedicalId, date, disease, symptoms))
-                .show();
     }
 
     private void addHealthIssue(String patientMedicalId, String date, String disease, String symptoms) {
@@ -129,17 +114,9 @@ public class DoctorAddHealthIssueActivity extends AppCompatActivity {
         dialog.dismiss();
 
         if (inserted > 0) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Disease Added Successfully")
-                    .setMessage("The issue was added to Current Disease history.")
-                    .setPositiveButton("OK", null)
-                    .show();
+            Toast.makeText(this, "Disease added to current disease history.", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Failed to add health issue.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private String safe(String value) {
-        return TextUtils.isEmpty(value) ? "Not available" : value;
     }
 }

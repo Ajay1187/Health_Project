@@ -3,36 +3,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
     android:background="@drawable/background_1img">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Medical History"
-        android:textColor="@android:color/white"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp" />
+    <ViewFlipper
+        android:id="@+id/vf_medical_history_banner"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:autoStart="true"
+        android:flipInterval="3000">
 
-    <Button
-        android:id="@+id/btn_by_adhar_card"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/two" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/three" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/four" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/five" />
+    </ViewFlipper>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/blur_bg"
-        android:text="By Adhar Card"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_margin="20dp"
+        android:background="@drawable/glass_card"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/btn_by_medical_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/blur_bg"
-        android:text="By Medical ID"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Medical History"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_by_adhar_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/blur_bg"
+            android:text="By Aadhaar Card"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_by_medical_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blur_bg"
+            android:text="By Medical ID"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 </LinearLayout>

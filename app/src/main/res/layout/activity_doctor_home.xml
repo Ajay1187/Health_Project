@@ -82,25 +82,13 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_drprofile"
+                android:id="@+id/btn_draddhealthissue"
                 style="@style/AppFontStyle"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/blur_bg"
-                android:text="Profile"
-                android:textColor="#fff"
-                android:textSize="20dp" />
-
-            <Button
-                android:id="@+id/btn_draboutus"
-                style="@style/AppFontStyle"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/blur_bg"
-                android:text="About Us"
+                android:text="Add Health Issue"
                 android:textColor="#fff"
                 android:textSize="20dp" />
 
@@ -117,14 +105,26 @@
                 android:textSize="20dp" />
 
             <Button
-                android:id="@+id/btn_draddhealthissue"
+                android:id="@+id/btn_drprofile"
                 style="@style/AppFontStyle"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/blur_bg"
-                android:text="Add Health Issue"
+                android:text="Profile"
+                android:textColor="#fff"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/btn_draboutus"
+                style="@style/AppFontStyle"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/blur_bg"
+                android:text="About Us"
                 android:textColor="#fff"
                 android:textSize="20dp" />
 
