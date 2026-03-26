@@ -16,6 +16,7 @@ Button b2, logout, aboutus, medicalHistory, addHealthIssue;
 TextView tv;
 TestAdapter adapter;
 String drid;
+String doctorId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,8 @@ String drid;
             drid = bundle.getString("Key");
             Cursor c = adapter.getDoctorid(drid);
             while (c.moveToNext()) {
-                tv.setText(c.getString(0));
+                doctorId = c.getString(0);
+                tv.setText(doctorId);
             }
 
         } catch (Exception ignored) {
@@ -84,7 +86,7 @@ String drid;
 
         addHealthIssue.setOnClickListener(view -> {
             Intent intent = new Intent(DoctorHomeActivity.this, DoctorAddHealthIssueActivity.class);
-            intent.putExtra("DoctorID", drid);
+            intent.putExtra("DoctorID", doctorId == null ? drid : doctorId);
             startActivity(intent);
         });
     }
